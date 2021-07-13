@@ -1,52 +1,26 @@
+import Form from '../component/Footer/Form'
+
 export default function Footer(){
     return(
         <>
             <section id="contact">
                 <div className="inner">
-                    <section>
-                        <form method="post" action="#">
-                            <div className="fields">
-                                <div className="field half">
-                                    <label htmlFor="name">Name</label>
-                                    <input type="text" name="name" id="name"/>
-                                </div>
-                                <div className="field half">
-                                    <label htmlFor="email">Email</label>
-                                    <input type="text" name="email" id="email"/>
-                                </div>
-                                <div className="field">
-                                    <label htmlFor="message">Message</label>
-                                    <textarea name="message" id="message" rows="6"></textarea>
-                                </div>
-                            </div>
-                            <ul className="actions">
-                                <li><input type="submit" value="Send Message" className="primary"/></li>
-                                <li><input type="reset" value="Clear"/></li>
-                            </ul>
-                        </form>
-                    </section>
+                    <Form />
                     <section className="split">
                         <section>
                             <div className="contact-method">
-                                <span className="icon solid alt fa-envelope"></span>
+                                <span className="icon solid alt fa-envelope" />
                                 <h3>Email</h3>
-                                <a href="#">information@untitled.tld</a>
+                                <a href="mailto:info@sivir.pw">info@sivir.pw</a>
                             </div>
                         </section>
+
                         <section>
                             <div className="contact-method">
-                                <span className="icon solid alt fa-phone"></span>
-                                <h3>Phone</h3>
-                                <span>(000) 000-0000 x12387</span>
-                            </div>
-                        </section>
-                        <section>
-                            <div className="contact-method">
-                                <span className="icon solid alt fa-home"></span>
+                                <span className="icon solid alt fa-home" />
                                 <h3>Address</h3>
-                                <span>1234 Somewhere Road #5432<br/>
-										Nashville, TN 00000<br/>
-										United States of America</span>
+                                <span><br/>
+										Taiwan</span>
                             </div>
                         </section>
                     </section>
@@ -55,6 +29,7 @@ export default function Footer(){
 
             <footer id="footer">
                 <div className="inner">
+                    {/*
                     <ul className="icons">
                         <li><a href="#" className="icon brands alt fa-twitter"><span
                             className="label">Twitter</span></a></li>
@@ -68,9 +43,11 @@ export default function Footer(){
                             className="label">LinkedIn</span></a>
                         </li>
                     </ul>
+                    */}
                     <ul className="copyright">
-                        <li>&copy; Untitled</li>
+                        <li>&copy; usapnayn</li>
                         <li>Design: <a href="https://html5up.net">HTML5 UP</a></li>
+                        <li>Construct: Milliax, Hsuan, NeoDoggy</li>
                     </ul>
                 </div>
             </footer>

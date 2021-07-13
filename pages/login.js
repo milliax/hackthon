@@ -1,6 +1,6 @@
-import Navigation from "../component/Navigation";
 import Footer from "../component/Footer";
 import Head from "next/head";
+import Title from '../component/Title'
 
 export default function Login() {
     return(
@@ -15,6 +15,7 @@ export default function Login() {
                 </nav>
             </header>
             <Navigation />
+            <Title />
             <div id="main" className="alt">
                 <section id="one">
                     <div className="inner">
