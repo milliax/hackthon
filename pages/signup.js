@@ -48,7 +48,11 @@ export default function Signup(){
             console.log(response)
 
         }catch(err){
-            window.alert(err)
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: err
+            })
         }
     }
     return(

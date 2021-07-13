@@ -2,6 +2,7 @@ import Footer from "../component/Footer";
 import Title from '../component/Title'
 import {useState} from "react";
 import {LinearProgress} from "@material-ui/core";
+import Swal from "sweetalert2";
 
 export default function Login() {
     const [account, setAccount] = useState('')
@@ -25,7 +26,11 @@ export default function Login() {
             setLoading(false)
             console.log(response)
         }catch(err){
-            window.alert(err)
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: err
+            })
         }
     }
 
