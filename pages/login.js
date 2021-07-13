@@ -1,6 +1,6 @@
-import Navigation from "../component/Navigation";
 import Footer from "../component/Footer";
 import Head from "next/head";
+import Title from '../component/Title'
 
 export default function Login() {
     return(
@@ -8,13 +8,7 @@ export default function Login() {
             <Head>
                 <title key="title">登入</title>
             </Head>
-            <header id="header">
-                <a href="index.html" className="logo"><strong>Forty</strong> <span>by HTML5 UP</span></a>
-                <nav>
-                    <a href="#menu">Menu</a>
-                </nav>
-            </header>
-            <Navigation />
+            <Title />
             <div id="main" className="alt">
                 <h1> Login </h1>
             </div>
