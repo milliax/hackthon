@@ -93,11 +93,6 @@ export default function Signup(){
                                 </div>
                                 <div className="col-12">
                                     <button type="submit" className="primary" style={{width: "100%"}}>註冊</button>
-                                    <div className="neon">
-                                        <span className="text" data-text="thanks">thanks</span>
-                                        <span className="gradient"/>
-                                        <span className="spotlight"/>
-                                    </div>
                                 </div>
                             </div>
                         </form>

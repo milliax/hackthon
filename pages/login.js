@@ -3,8 +3,8 @@ import Title from '../component/Title'
 import {useState} from "react";
 
 export default function Login() {
-    const [email,setEmail] = useState('')
-    const [password,setPassword] = useState('')
+    const [account, setAccount] = useState('')
+    const [password, setPassword] = useState('')
 
     async function Send(){
         try{
@@ -14,8 +14,8 @@ export default function Login() {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },body: JSON.stringify({
-                    email: email,
-                    password: password
+                    account,
+                    password
                 })
             })
             const response = await res.json()
@@ -41,21 +41,19 @@ export default function Login() {
                         }}>
                             <div className="row gtr-uniform">
                                 <div className="col-6 col-12-xlarge">
-                                    <input type="email"
-                                           value={email}
-                                           onChange={e =>{setEmail(e.target.value)}}
-                                           placeholder="Email"/>
+                                    <input type="text"
+                                           value={account}
+                                           onChange={e =>{setAccount(e.target.value)}}
+                                           placeholder="帳號"/>
                                 </div>
                                 <div className="col-6 col-12-xlarge">
                                     <input type="password"
                                            value={password}
                                            onChange={e =>{setPassword(e.target.value)}}
-                                           placeholder="Password"/>
+                                           placeholder="密碼"/>
                                 </div>
                                 <div className="col-12">
-                                    <ul className="actions">
-                                        <li><input type="submit" value="登入" className="primary"/></li>
-                                    </ul>
+                                    <button type="submit" className="primary" style={{width: "100%"}}>登入</button>
                                 </div>
                             </div>
                         </form>
