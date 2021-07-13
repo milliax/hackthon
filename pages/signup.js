@@ -8,13 +8,14 @@ export default function Signup(){
     const [password,setPassword] = useState('')
     const [password2,setPassword2] = useState('')
     const [name,setName] = useState('')
+    const [account,setAccount] = useState('')
 
     async function Send(){
-        if(email===''&&password===''&&name===''){
+        if(email==='' || password==='' || name==='' || password2 === '' || account === ''){
             Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
-                text: '請輸入下列表格之後再重試'
+                text: '表格中有資料尚未填寫'
             })
             return
         }
@@ -22,7 +23,7 @@ export default function Signup(){
             Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
-                text: '密碼及驗證碼不一樣'
+                text: '密碼兩次輸入的不同'
             })
             return
         }
@@ -33,9 +34,10 @@ export default function Signup(){
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },body: JSON.stringify({
-                    email: email,
-                    password: password,
-                    name: name
+                    email,
+                    password,
+                    name,
+                    account
                 })
             })
             const response = await res.json()
@@ -59,34 +61,43 @@ export default function Signup(){
                             Send()
                         }}>
                             <div className="row gtr-uniform">
-                                <div className="col-6 col-12-xlarge">
+                                <div className="col-12">
+                                    <input type="text"
+                                           value={account}
+                                           onChange={e =>{setAccount(e.target.value)}}
+                                           placeholder="帳號"/>
+                                </div>
+                                <div className="col-12">
                                     <input type="text"
                                            value={name}
                                            onChange={e =>{setName(e.target.value)}}
-                                           placeholder="Name"/>
+                                           placeholder="您的姓名"/>
                                 </div>
-                                <div className="col-6 col-12-xlarge">
+                                <div className="col-12">
                                     <input type="email"
                                            value={email}
                                            onChange={e =>{setEmail(e.target.value)}}
-                                           placeholder="Email"/>
+                                           placeholder="您的Email"/>
                                 </div>
-                                <div className="col-6 col-12-xlarge">
+                                <div className="col-12">
                                     <input type="password"
                                            value={password}
                                            onChange={e =>{setPassword(e.target.value)}}
-                                           placeholder="Password"/>
+                                           placeholder="密碼"/>
                                 </div>
-                                <div className="col-6 col-12-xlarge">
+                                <div className="col-12">
                                     <input type="password"
                                            value={password2}
                                            onChange={e =>{setPassword2(e.target.value)}}
-                                           placeholder="Password Confirmation"/>
+                                           placeholder="確認密碼"/>
                                 </div>
                                 <div className="col-12">
-                                    <ul className="actions">
-                                        <li><input type="submit" value="註冊" className="primary"/></li>
-                                    </ul>
+                                    <button type="submit" className="primary" style={{width: "100%"}}>註冊</button>
+                                    <div className="neon">
+                                        <span className="text" data-text="thanks">thanks</span>
+                                        <span className="gradient"/>
+                                        <span className="spotlight"/>
+                                    </div>
                                 </div>
                             </div>
                         </form>
