@@ -1,15 +1,16 @@
+import Link from 'next/link'
+
 export default function Navigation() {
     return (
         <nav id="menu">
             <ul className="links">
-                <li><a href="/">Home</a></li>
-                <li><a href="landing">Landing</a></li>
-                <li><a href="generic">Generic</a></li>
-                <li><a href="elements">Elements</a></li>
+                <li><Link href="/">主畫面</Link></li>
+                <li><Link href="/">Landing</Link></li>
+                <li><Link href="/report">申報問題</Link></li>
             </ul>
             <ul className="actions stacked">
-                <li><a href="#" className="button primary fit">Get Started</a></li>
-                <li><a href="#" className="button fit">Log In</a></li>
+                <li><a href="/login" className="button primary fit">登入</a></li>
+                <li><a href="/signup" className="button fit">註冊</a></li>
             </ul>
         </nav>
     )
