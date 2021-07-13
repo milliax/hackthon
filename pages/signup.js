@@ -38,7 +38,7 @@ export default function Signup(){
             return
         }
         try{
-            const res = await fetch(`${process.env.NEXT_PUBLIC_ENDPOINT}/api/posts/register`,{
+            const res = await fetch(`${process.env.NEXT_PUBLIC_ENDPOINT}/register`,{
                 method: 'POST',
                 cors: 'no-cors',
                 headers: {
