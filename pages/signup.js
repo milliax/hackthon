@@ -11,11 +11,11 @@ export default function Signup(){
     const [account,setAccount] = useState('')
 
     async function Send(){
-        if(email===''&&password===''&&name===''){
+        if(email==='' || password==='' || name==='' || password2 === '' || account === ''){
             Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
-                text: '請輸入下列表格之後再重試'
+                text: '表格中有資料尚未填寫'
             })
             return
         }
