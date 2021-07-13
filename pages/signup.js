@@ -9,14 +9,21 @@ export default function Signup(){
                 <title key="title">註冊</title>
             </Head>
             <header id="header">
-                <a href="index.html" className="logo"><strong>Forty</strong> <span>by HTML5 UP</span></a>
+                <a href="index" className="logo"><strong>Forty</strong> <span>by HTML5 UP</span></a>
                 <nav>
                     <a href="#menu">Menu</a>
                 </nav>
             </header>
             <Navigation />
             <div id="main" className="alt">
-                <h1> Login </h1>
+                <section id="one">
+                    <div className="inner">
+                        <header className="major">
+                            <h1>Signup</h1>
+                        </header>
+                        <h2>註冊來成為會員</h2>
+                    </div>
+                </section>
             </div>
             <Footer/>
         </div>
