@@ -8,7 +8,7 @@ export default function Title(props) {
                 <title key="title">{props.title} - Life on Land</title>
             </Head>
             <header id="header">
-                <a href="/" className="logo"><strong>Forty</strong> <span>By usapnayn</span></a>
+                <a href="/" className="logo"><strong>Fifteen</strong> <span>By usapnayn</span></a>
                 <nav>
                     <a href="#menu">Menu</a>
                 </nav>

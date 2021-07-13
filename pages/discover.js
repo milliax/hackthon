@@ -16,7 +16,6 @@ export default function Discover() {
         setLongitude(lng)
     }
 
-
     return (
         <div id="wrapper">
 
@@ -29,7 +28,7 @@ export default function Discover() {
                         </header>
                         <div style={{height: '100vh', width: '100%'}}>
                             <GoogleMap
-                                apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAP_KEY}
+                                key={process.env.NEXT_PUBLIC_GOOGLE}
                                 center={center}
                                 zoom={zoom}
                                 onClick={clicked}
