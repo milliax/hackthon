@@ -30,7 +30,7 @@ export default function Form(){
 
     return(
         <section>
-            <label><h1>回報問題</h1></label>
+            <label><h1>回報錯誤</h1></label>
             <form onSubmit={event=>{
                 event.preventDefault()
                 Send()
