@@ -8,7 +8,7 @@ export default function Login() {
 
     async function Send(){
         try{
-            const res = await fetch(`${process.env.NEXT_PUBLIC_ENDPOINT}/login`,{
+            const res = await fetch(`${process.env.NEXT_PUBLIC_ENDPOINT}/auth/login`,{
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
