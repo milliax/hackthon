@@ -61,40 +61,43 @@ export default function Signup(){
                             Send()
                         }}>
                             <div className="row gtr-uniform">
-                                <div className="col-6 col-12-xlarge">
+                                <div className="col-12">
                                     <input type="text"
                                            value={account}
                                            onChange={e =>{setAccount(e.target.value)}}
-                                           placeholder="Account"/>
+                                           placeholder="帳號"/>
                                 </div>
-                                <div className="col-6 col-12-xlarge">
+                                <div className="col-12">
                                     <input type="text"
                                            value={name}
                                            onChange={e =>{setName(e.target.value)}}
-                                           placeholder="Name"/>
+                                           placeholder="您的姓名"/>
                                 </div>
-                                <div className="col-6 col-12-xlarge">
+                                <div className="col-12">
                                     <input type="email"
                                            value={email}
                                            onChange={e =>{setEmail(e.target.value)}}
-                                           placeholder="Email"/>
+                                           placeholder="您的Email"/>
                                 </div>
-                                <div className="col-6 col-12-xlarge">
+                                <div className="col-12">
                                     <input type="password"
                                            value={password}
                                            onChange={e =>{setPassword(e.target.value)}}
-                                           placeholder="Password"/>
+                                           placeholder="密碼"/>
                                 </div>
-                                <div className="col-6 col-12-xlarge">
+                                <div className="col-12">
                                     <input type="password"
                                            value={password2}
                                            onChange={e =>{setPassword2(e.target.value)}}
-                                           placeholder="Password Confirmation"/>
+                                           placeholder="確認密碼"/>
                                 </div>
                                 <div className="col-12">
-                                    <ul className="actions">
-                                        <li><input type="submit" value="註冊" className="primary"/></li>
-                                    </ul>
+                                    <button type="submit" className="primary" style={{width: "100%"}}>註冊</button>
+                                    <div className="neon">
+                                        <span className="text" data-text="thanks">thanks</span>
+                                        <span className="gradient"/>
+                                        <span className="spotlight"/>
+                                    </div>
                                 </div>
                             </div>
                         </form>
