@@ -1,10 +1,14 @@
-import React from 'react'
 import '../styles/main.css'
 import '../styles/fontawesome-all.min.css'
+import Head from 'next/head'
+
 
 function MyApp({Component, pageProps}) {
     return (
-        <React.Fragment>
+        <>
+            <Head>
+                <title key="title">聯合國永續發展</title>
+            </Head>
             <Component {...pageProps} />
             <script src={`${process.env.NEXT_PUBLIC_DATABASE}/hackthon/assets/js/jquery.min.js`}/>
             <script src={`${process.env.NEXT_PUBLIC_DATABASE}/hackthon/assets/js/jquery.scrolly.min.js`}/>
@@ -13,7 +17,7 @@ function MyApp({Component, pageProps}) {
             <script src={`${process.env.NEXT_PUBLIC_DATABASE}/hackthon/assets/js/breakpoints.min.js`}/>
             <script src={`${process.env.NEXT_PUBLIC_DATABASE}/hackthon/assets/js/util.js`}/>
             <script src={`${process.env.NEXT_PUBLIC_DATABASE}/hackthon/assets/js/main.js`}/>
-        </React.Fragment>
+        </>
     )
 }
 

@@ -1,15 +1,12 @@
 import Navigation from "../component/Navigation";
-import Head from 'next/head'
+import Spotlight from "../component/Home/Spotlight";
 
 export default function Home() {
     return (
         <>
-            <Head>
-                <title key="title">Title</title>
-            </Head>
             <div id="wrapper">
                 <header id="header" className="alt">
-                    <a href="/" className="logo"><strong>Forty</strong> <span>by HTML5 UP</span></a>
+                    <a href="/" className="logo"><strong>FIFTEEN</strong> <span>By usapnayn</span></a>
                     <nav>
                         <a href="#menu">Menu</a>
                     </nav>
@@ -21,8 +18,7 @@ export default function Home() {
                             <h1>聯合國永續發展</h1>
                         </header>
                         <div className="content">
-                            <p>A responsive site template designed by HTML5 UP<br/>
-                                and released under the Creative Commons.</p>
+                            <p>根據聯合國永續發展第15項</p>
                             <ul className="actions">
                                 <li><a href="#one" className="button next scrolly">Get Started</a></li>
                             </ul>
@@ -33,77 +29,24 @@ export default function Home() {
                 <div id="main">
 
                     <section id="one" className="tiles">
-                        <article>
-									<span className="image">
-										<img src="images/pic01.jpg" alt=""/>
-									</span>
-                            <header className="major">
-                                <h3><a href="landing.html" className="link">Aliquam</a></h3>
-                                <p>Ipsum dolor sit amet</p>
-                            </header>
-                        </article>
-                        <article>
-									<span className="image">
-										<img src="images/pic02.jpg" alt=""/>
-									</span>
-                            <header className="major">
-                                <h3><a href="landing.html" className="link">Tempus</a></h3>
-                                <p>feugiat amet tempus</p>
-                            </header>
-                        </article>
-                        <article>
-									<span className="image">
-										<img src="images/pic03.jpg" alt=""/>
-									</span>
-                            <header className="major">
-                                <h3><a href="landing.html" className="link">Magna</a></h3>
-                                <p>Lorem etiam nullam</p>
-                            </header>
-                        </article>
-                        <article>
-									<span className="image">
-										<img src="images/pic04.jpg" alt=""/>
-									</span>
-                            <header className="major">
-                                <h3><a href="landing.html" className="link">Ipsum</a></h3>
-                                <p>Nisl sed aliquam</p>
-                            </header>
-                        </article>
-                        <article>
-									<span className="image">
-										<img src="images/pic05.jpg" alt=""/>
-									</span>
-                            <header className="major">
-                                <h3><a href="landing.html" className="link">Consequat</a></h3>
-                                <p>Ipsum dolor sit amet</p>
-                            </header>
-                        </article>
-                        <article>
-									<span className="image">
-										<img src="images/pic06.jpg" alt=""/>
-									</span>
-                            <header className="major">
-                                <h3><a href="landing.html" className="link">Etiam</a></h3>
-                                <p>Feugiat amet tempus</p>
-                            </header>
-                        </article>
+                        <Spotlight img="images/pic01.jpg"
+                                   title="Aliquam"
+                                   context="Ipsum dolor sit amet"
+                                   link="/"/>
+                        <Spotlight img="images/pic02.jpg"
+                                   title=""
+                                   context="Ipsum dolor sit amet"
+                                   link="/"/>
                     </section>
 
                     <section id="two">
                         <div className="inner">
                             <header className="major">
-                                <h2>Massa libero</h2>
+                                <h2>回報</h2>
                             </header>
-                            <p>Nullam et orci eu lorem consequat tincidunt vivamus et sagittis libero. Mauris aliquet
-                                magna magna sed
-                                nunc rhoncus pharetra. Pellentesque condimentum sem. In efficitur ligula tate urna.
-                                Maecenas laoreet
-                                massa vel lacinia pellentesque lorem ipsum dolor. Nullam et orci eu lorem consequat
-                                tincidunt. Vivamus
-                                et sagittis libero. Mauris aliquet magna magna sed nunc rhoncus amet pharetra et feugiat
-                                tempus.</p>
+                            <p>回報</p>
                             <ul className="actions">
-                                <li><a href="landing.html" className="button next">Get Started</a></li>
+                                <li><a href="/report" className="button next">現在開始</a></li>
                             </ul>
                         </div>
                     </section>
