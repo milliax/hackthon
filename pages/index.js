@@ -29,14 +29,17 @@ export default function Home() {
             <div id="main">
 
                 <section id="one" className="tiles">
-                    <Spotlight img="images/pic01.jpg"
-                               title="Aliquam"
-                               context="Ipsum dolor sit amet"
-                               link="/"/>
-                    <Spotlight img="images/pic02.jpg"
-                               title=""
-                               context="Ipsum dolor sit amet"
-                               link="/"/>
+                    <Spotlight title="太平洋垃圾島"
+                                context="每年成千上萬隻海鷗葬身此地"/>
+                    <Spotlight title="全球最大熱帶植物保種中心在台灣"
+                                context="目前熱帶植物正瀕臨滅絕，如何挽救？"/>
+                    <img src="images/pic01.jpg"/>
+                    <Spotlight title="給石虎安心的家"
+                                context="為野生動物守護安心家園"/>
+                    <Spotlight title="非法販賣的野生動物"
+                                context="保護它們"/>
+                    <Spotlight title="森林面積佔總土地面積過少"
+                                context="該如何挽救?"/>
                 </section>
 
                 <section id="two">
