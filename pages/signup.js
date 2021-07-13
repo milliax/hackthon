@@ -2,6 +2,7 @@ import Footer from "../component/Footer";
 import {useState} from "react";
 import Swal from 'sweetalert2'
 import Title from '../component/Title'
+import {LinearProgress} from "@material-ui/core";
 
 export default function Signup(){
     const [email,setEmail] = useState('')
@@ -9,6 +10,7 @@ export default function Signup(){
     const [password2,setPassword2] = useState('')
     const [name,setName] = useState('')
     const [account,setAccount] = useState('')
+    const [loading, setLoading] = useState(false)
 
     async function Send(){
         if(email==='' || password==='' || name==='' || password2 === '' || account === ''){
@@ -28,6 +30,7 @@ export default function Signup(){
             return
         }
         try{
+            setLoading(true)
             const res = await fetch(`${process.env.NEXT_PUBLIC_ENDPOINT}/auth/register`,{
                 method: 'POST',
                 headers: {
@@ -41,6 +44,7 @@ export default function Signup(){
                 })
             })
             const response = await res.json()
+            setLoading(false)
             console.log(response)
 
         }catch(err){
@@ -49,6 +53,7 @@ export default function Signup(){
     }
     return(
         <div id="wrapper">
+            <LinearProgress hidden={!loading}/>
             <Title title="註冊" />
             <div id="main" className="alt">
                 <section id="one">
