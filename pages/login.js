@@ -1,13 +1,16 @@
 import Footer from "../component/Footer";
 import Title from '../component/Title'
 import {useState} from "react";
+import {LinearProgress} from "@material-ui/core";
 
 export default function Login() {
     const [account, setAccount] = useState('')
     const [password, setPassword] = useState('')
+    const [loading, setLoading] = useState(false)
 
     async function Send(){
         try{
+            setLoading(true)
             const res = await fetch(`${process.env.NEXT_PUBLIC_ENDPOINT}/auth/login`,{
                 method: 'POST',
                 headers: {
@@ -19,8 +22,8 @@ export default function Login() {
                 })
             })
             const response = await res.json()
+            setLoading(false)
             console.log(response)
-
         }catch(err){
             window.alert(err)
         }
@@ -28,6 +31,7 @@ export default function Login() {
 
     return (
         <div id="wrapper">
+            <LinearProgress hidden={!loading}/>
             <Title title="登入"/>
             <div id="main" className="alt">
                 <section id="one">
