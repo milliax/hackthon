@@ -8,6 +8,7 @@ export default function Signup(){
     const [password,setPassword] = useState('')
     const [password2,setPassword2] = useState('')
     const [name,setName] = useState('')
+    const [account,setAccount] = useState('')
 
     async function Send(){
         if(email===''&&password===''&&name===''){
@@ -22,7 +23,7 @@ export default function Signup(){
             Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
-                text: '密碼及驗證碼不一樣'
+                text: '密碼兩次輸入的不同'
             })
             return
         }
@@ -33,9 +34,10 @@ export default function Signup(){
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },body: JSON.stringify({
-                    email: email,
-                    password: password,
-                    name: name
+                    email,
+                    password,
+                    name,
+                    account
                 })
             })
             const response = await res.json()
@@ -59,6 +61,12 @@ export default function Signup(){
                             Send()
                         }}>
                             <div className="row gtr-uniform">
+                                <div className="col-6 col-12-xlarge">
+                                    <input type="text"
+                                           value={account}
+                                           onChange={e =>{setAccount(e.target.value)}}
+                                           placeholder="Account"/>
+                                </div>
                                 <div className="col-6 col-12-xlarge">
                                     <input type="text"
                                            value={name}
