@@ -8,7 +8,6 @@ export default function ErrorPage() {
         <>
             <div id="wrapper">
                 <Title/>
-
                 <div id="main" className="alt">
                     <section id="one">
                         <div className="inner">
