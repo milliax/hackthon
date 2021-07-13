@@ -40,13 +40,13 @@ export default function Login() {
                             Send()
                         }}>
                             <div className="row gtr-uniform">
-                                <div className="col-6 col-12-xlarge">
+                                <div className="col-12">
                                     <input type="text"
                                            value={account}
                                            onChange={e =>{setAccount(e.target.value)}}
                                            placeholder="帳號"/>
                                 </div>
-                                <div className="col-6 col-12-xlarge">
+                                <div className="col-12">
                                     <input type="password"
                                            value={password}
                                            onChange={e =>{setPassword(e.target.value)}}
