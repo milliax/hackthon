@@ -1,3 +1,5 @@
+import Navigation from "../component/Navigation";
+
 export default function Anothor(){
     return(
         <div id="wrapper">
@@ -7,6 +9,7 @@ export default function Anothor(){
                     <a href="#menu">Menu</a>
                 </nav>
             </header>
+            <Navigation />
         </div>
     )
 }
