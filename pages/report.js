@@ -11,7 +11,6 @@ import {
     Link, Button
 } from "@material-ui/core";
 import AddIcon from '@material-ui/icons/Add';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import GoogleMapSection from "../component/Report/GoogleMapSection";
 import Cookies from "universal-cookie/lib";
@@ -25,13 +24,7 @@ export default function Report() {
     const [name, setName] = useState('')
     const [content, setContent] = useState('')
     const [loading, setLoading] = useState(false)
-    const [categories, setCategories] = useState([
-        {id: 1, name: "陸域生態系統破壞"},
-        {id: 2, name: "森林管理缺失"},
-        {id: 3, name: "沙漠化"},
-        {id: 4, name: "土地劣化"},
-        {id: 5, name: "生物多樣性喪失"}
-    ])
+    const [categories, setCategories] = useState([])
     const [categoriesSelectedData, setCategoriesSelectedData] = useState([])
     const [categoryExpanded, setCategoryExpanded] = useState(false)
     const [image, setImage] = useState('')
@@ -45,7 +38,8 @@ export default function Report() {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    "Authorization": `Bearer ${cookies.get('access_token')}`
                 }, body: JSON.stringify({
                     name,
                     content,
@@ -56,7 +50,22 @@ export default function Report() {
             })
             const response = await res.json()
             setLoading(false)
-            console.log(response)
+            if(typeof response.status !== 'undefined' && response.status !== 200){
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: response?.error?.localizedMessage ?? response?.error?.message
+                })
+            } else {
+                Swal.fire({
+                    icon: 'success',
+                    title: '成功',
+                    text: '成功回報'
+                }).then(()=>{
+                    location.href = '/'
+                })
+            }
+
         } catch (err) {
             Swal.fire({
                 icon: 'error',
@@ -174,15 +183,29 @@ export default function Report() {
                 return response.text().then(res => {
                     throw new Error(res)
                 })
-            }).catch((error) => {
-                console.log(error.message)
-                let response = JSON.parse(error.message)
-                window.alert(`${response.message}\n與伺服器連線錯誤，請再試一次\n如果問題無法解決，請聯絡管理員`)
             }).then(response => {
                 console.log(typeof response)
-                //window.alert(response)
-                setImageUrl(response.details.path)
+                setImageUrl(response?.details?.path)
                 setLoading(false)
+            }).catch((error) => {
+                //console.log(error.message)
+                let response = JSON.parse(error.message)
+                let str = ''
+                console.log(response)
+                if(typeof response.errors !== 'undefined') {
+                    console.log(response.errors)
+                    for(let key of Object.keys(response.errors)){
+                        console.log(key)
+                        for(let msg of response.errors[key]){
+                            str += msg + '\n'
+                        }
+                    }
+                }
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: str
+                })
             })
         };
         reader.readAsDataURL(file);
@@ -231,12 +254,13 @@ export default function Report() {
                                                onChange={e => {
                                                    setName(e.target.value)
                                                }}
+                                               required
                                                placeholder="通報問題名稱"/>
                                     </div>
                                     <div className="col-12">
                                         <textarea value={content} onChange={e => {
                                             setContent(e.target.value)
-                                        }} placeholder="通報內容" rows={5}/>
+                                        }} placeholder="通報內容" rows={5} required/>
                                     </div>
                                     <div className={"col-12"}>
                                         <Grid container spacing={2} justifyContent="space-between">
@@ -274,13 +298,14 @@ export default function Report() {
                                     </div>
 
                                     <div className={"col-12"}>
-                                        <button hidden={imageUrl !== ''} onClick={()=>file.click()} className="primary" style={{fontSize: "11px"}}>
+                                        <button hidden={imageUrl !== ''} onClick={()=>file.click()} className="primary" style={{fontSize: "11px"}} type={'button'}>
                                             上傳圖片
                                         </button>
                                         <input type="file" name="file"
                                                className="upload-file"
                                                id="file"
                                                onChange={handleChangeImage}
+                                               accept="image/*,.png,.jpg,.gif,.PNG,.JPS,.GIF"
                                                hidden
                                         />
                                         <br/>
