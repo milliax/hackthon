@@ -34,21 +34,21 @@ export default function Home() {
                     <Spotlight title="全球最大熱帶植物保種中心在台灣"
                                context="目前熱帶植物正瀕臨滅絕，如何挽救？"
                                link="/post/reservation_in_taiwan"/>
-                    <div class="slideshow-container">
+                    <div className="slideshow-container">
                         <div className="mySlides fade">
                         <div className="numbertext">1 / 3</div>
                         <img src="img_mountains_wide.jpg" style={{width: "100%"}}/>
                         <div className="text">1</div>
                         </div>
                     </div>
-                    <div class="slideshow-container">
+                    <div className="slideshow-container">
                         <div className="mySlides fade">
                         <div className="numbertext">2 / 3</div>
                         <img src="img_mountains_wide.jpg" style={{width: "100%"}}/>
                         <div className="text">2</div>
                         </div>
                     </div>
-                    <div class="slideshow-container">
+                    <div className="slideshow-container">
                         <div className="mySlides fade">
                         <div className="numbertext">3 / 3</div>
                         <img src="img_mountains_wide.jpg" style={{width: "100%"}}/>
