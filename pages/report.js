@@ -178,17 +178,6 @@ export default function Report() {
                             <h1>通報問題</h1>
                         </header>
                         <div style={{height: '100vh', width: '100%'}}>
-                            <div style={{height: '70vh', width: '55%'}}>
-                                <GoogleMapSection onChange={(lat,lng)=>{
-                                    setLongitude(lng)
-                                    setLatitude(lat)
-                                }}
-                                                  zoom={zoom}
-                                                  center={center}
-                                                  longitude={longitude}
-                                                  latitude={latitude}
-                                />
-                            </div>
                             <form onSubmit={event => {
                                 event.preventDefault()
                                 Send()
@@ -226,6 +215,23 @@ export default function Report() {
                                             </CardContent>
                                         </Collapse>
                                     </div>
+                                    <div className="col-12">
+                                        <div style={{height: '50vh',display:'flex',alignItems: 'center',position: 'relative'}}>
+                                            <div style={{height:'100%',width:'100%'}}>
+                                                <GoogleMapSection onChange={(lat,lng)=>{
+                                                    setLongitude(lng)
+                                                    setLatitude(lat)
+                                                }}
+                                                                  zoom={zoom}
+                                                                  center={center}
+                                                                  longitude={longitude}
+                                                                  latitude={latitude}
+                                                />
+                                            </div>
+                                        </div>
+
+                                    </div>
+
                                     <div className="col-12">
                                         <button type="submit" className="primary" style={{width: "100%"}}>通報</button>
                                     </div>
