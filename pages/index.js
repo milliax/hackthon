@@ -1,7 +1,21 @@
 import Spotlight from "../component/Home/Spotlight";
 import Footer from "../component/Footer";
+import {useEffect, useState} from "react";
+import Cookies from 'universal-cookie'
 
 export default function Home() {
+    const [loggedIn,setLoggedIn] = useState(false)
+    const cookies = new Cookies()
+
+    useEffect(() => {
+        const access = cookies.get('access_token')
+        if (typeof (access) === "undefined") {
+            setLoggedIn(false)
+        } else {
+            setLoggedIn(true)
+        }
+    }, [])
+
     return (
         <div id="wrapper">
             <section id="banner" className="major">
@@ -12,7 +26,11 @@ export default function Home() {
                     <div className="content">
                         <p>志願者，是一群強大的力量，能撐起一個個美好的理想</p>
                         <ul className="actions">
-                            <li><a href="/signup" className="button next scrolly">立即通報環境災害</a></li>
+                            {!loggedIn ?
+                                <li><a href="/signup" className="button next scrolly">立即通報環境災害</a></li>
+                                :
+                                <li><a href="/report" className="button next scrolly">立即通報環境災害</a></li>
+                            }
                         </ul>
                     </div>
                 </div>

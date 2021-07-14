@@ -14,6 +14,14 @@ export default function Login() {
     const [loading, setLoading] = useState(false)
 
     async function Send(){
+        const re = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+        if(re.test(account)){
+            await Swal.fire({
+                icon: 'error',
+                title: '請填入使用者名稱，非電子郵件',
+            })
+            return
+        }
         try{
             setLoading(true)
             const res = await fetch(`${process.env.NEXT_PUBLIC_ENDPOINT}/api/auth/login`,{
