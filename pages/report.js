@@ -154,7 +154,7 @@ export default function Report() {
                 Accept: "application/json"
             })
         }).then(r=>{
-
+            console.log(r)
         })
     }
 
