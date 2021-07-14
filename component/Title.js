@@ -5,7 +5,7 @@ export default function Title(props) {
     return (
         <>
             <Head>
-                <title key="title">{props.title} - SDGs 15th</title>
+                <title key="title">{props.title} - V-SDGs</title>
             </Head>
         </>
     )

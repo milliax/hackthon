@@ -9,12 +9,12 @@ export default function Home() {
             <section id="banner" className="major">
                 <div className="inner">
                     <header className="major">
-                        <h1>聯合國永續發展</h1>
+                        <h1>SDG志願者媒合平台</h1>
                     </header>
                     <div className="content">
-                        <p>根據聯合國永續發展第15項</p>
+                        <p>志願者，是一群強大的力量，能撐起一個個美好的理想</p>
                         <ul className="actions">
-                            <li><a href="#one" className="button next scrolly">Get Started</a></li>
+                            <li><a href="/signup" className="button next scrolly">加入志願者行列</a></li>
                         </ul>
                     </div>
                 </div>
@@ -32,7 +32,8 @@ export default function Home() {
 
                     <Spotlight title="給石虎安心的家"
                                context="為野生動物守護安心家園"
-                               link="/post/shihu_home"/>
+                               link="/post/shihu_home"
+                               className={"next"}/>
                     <Spotlight title="非法販賣的野生動物"
                                context="保護它們"
                                link="/post/illegal_trade"/>
@@ -41,7 +42,7 @@ export default function Home() {
                                link="/post/forest_gone"/>
                 </section>
 
-                <section id="two">
+                {/*<section id="two">
                     <div className="inner">
                         <header className="major">
                             <h2>申報環境危機</h2>
@@ -62,8 +63,10 @@ export default function Home() {
                             <li><a href="/report" className="button next">現在開始</a></li>
                         </ul>
                     </div>
-                </section>
-                <Footer/>
+
+                </section>*/}
+                <Footer />
+
             </div>
         </div>
     )
