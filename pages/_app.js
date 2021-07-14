@@ -2,6 +2,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/main.css'
 import '../styles/fontawesome-all.min.css'
 import Head from 'next/head'
+import '../styles/slide.css'
 
 
 function MyApp({Component, pageProps}) {
