@@ -3,7 +3,6 @@ import Spotlight from "../component/Home/Spotlight";
 import Footer from "../component/Footer";
 
 var slideIndex = 0;
-var document = typeof document === 'undefined' ? '' : document;
 showSlides();
 
 function showSlides() {

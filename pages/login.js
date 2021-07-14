@@ -2,8 +2,13 @@ import Footer from "../component/Footer";
 import Title from '../component/Title'
 import {useState} from "react";
 import {LinearProgress} from "@material-ui/core";
+import Swal from "sweetalert2";
+import Cookies from 'universal-cookie'
+import {useRouter} from "next/router";
 
 export default function Login() {
+    const cookies = new Cookies()
+    const router = useRouter()
     const [account, setAccount] = useState('')
     const [password, setPassword] = useState('')
     const [loading, setLoading] = useState(false)
@@ -11,7 +16,7 @@ export default function Login() {
     async function Send(){
         try{
             setLoading(true)
-            const res = await fetch(`${process.env.NEXT_PUBLIC_ENDPOINT}/auth/login`,{
+            const res = await fetch(`${process.env.NEXT_PUBLIC_ENDPOINT}/api/auth/login`,{
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -24,8 +29,21 @@ export default function Login() {
             const response = await res.json()
             setLoading(false)
             console.log(response)
+            if(typeof(response['access_token'])==="undefined"){
+                throw response['error']['message']
+            }
+            cookies.set('access_token', response['access_token'])
+            await Swal.fire({
+                icon: 'success',
+                title: '登入成功'
+            })
+            await router.push('/')
         }catch(err){
-            window.alert(err)
+            await Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: err
+            })
         }
     }
 
