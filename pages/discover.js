@@ -5,10 +5,11 @@ import EditLocationIcon from '@material-ui/icons/EditLocation';
 import Swal from 'sweetalert2'
 import {Card,Button} from 'react-bootstrap'
 import {Grid} from "@material-ui/core";
+import styles from '../styles/customized.module.scss';
 
 export default function Discover() {
-    const center = {lat: 23.5910882, lng: 121.112078}
-    const zoom = 7
+    const [center,setCenter] = useState({lat: 23.5910882, lng: 121.112078})
+    const [zoom,setZoom] = useState(7)
     const [coordinate, setCoordinate] = useState([])
 
     async function getFile() {
@@ -29,6 +30,12 @@ export default function Discover() {
                 text: err
             })
         }
+    }
+
+    function handleOnclick(index){
+        const arrival = coordinate[index]
+        setZoom(9)
+        setCenter({lat: arrival.lat,lng: arrival.lng})
     }
 
     useEffect(() => {
@@ -54,22 +61,26 @@ export default function Discover() {
                                 >
                                     {typeof(coordinate)!=="undefined" && coordinate.map((item, index) => {
                                         return (
-                                            <div lat={item.lat}
+                                            <x-marker lat={item.lat}
                                                  lng={item.lng}>
                                                 <EditLocationIcon>Location</EditLocationIcon>
-                                            </div>
+                                            </x-marker>
                                         )
                                     })}
                                 </GoogleMap>
                             </Grid>
                             <Grid item xs={6} style={{overflowY: "scroll"}}>
-                                {typeof(coordinate)!=="undefined" && coordinate.map(item => {
+                                {typeof(coordinate)!=="undefined" && coordinate.map((item,index) => {
                                     return (
                                         <Card>
                                             <Card.Header style={{color: 'black',display: 'flex'}}>
                                                 <div>{item.name}</div>
                                                 <div style={{marginLeft:"auto"}} >
-                                                    <Button className="btn btn-warning" style={{width: "10px",height: "10px"}}>選取</Button>
+                                                    <button style={{backgroundColor: "darkgrey"}}
+                                                            className={styles.customizedBtnHover}
+                                                            onClick={()=>{handleOnclick(index)}}>
+                                                        查看
+                                                    </button>
                                                 </div>
                                             </Card.Header>
                                             <Card.Body>
