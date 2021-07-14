@@ -4,6 +4,7 @@ import {useState, useEffect} from "react";
 import EditLocationIcon from '@material-ui/icons/EditLocation';
 import Swal from 'sweetalert2'
 import {Card,Button} from 'react-bootstrap'
+import {Grid} from "@material-ui/core";
 
 export default function Discover() {
     const center = {lat: 23.5910882, lng: 121.112078}
@@ -20,7 +21,6 @@ export default function Discover() {
                 }
             })
             const response = await res.json()
-            console.log(response)
             setCoordinate(response)
         } catch (err) {
             await Swal.fire({
@@ -37,7 +37,6 @@ export default function Discover() {
 
     return (
         <div id="wrapper">
-
             <Title title="探索"/>
             <div id="main" className="alt">
                 <section id="one">
@@ -45,8 +44,9 @@ export default function Discover() {
                         <header className="major">
                             <h1>探索</h1>
                         </header>
-                        <div style={{display: 'flex', flexWrap: 'wrap', align: 'center'}}>
-                            <div style={{height: '100vh', width: '50%'}}>
+
+                        <Grid container style={{height: '100vh'}} spacing={2}>
+                            <Grid item xs={6}>
                                 <GoogleMap
                                     key={process.env.NEXT_PUBLIC_GOOGLE}
                                     center={center}
@@ -61,8 +61,8 @@ export default function Discover() {
                                         )
                                     })}
                                 </GoogleMap>
-                            </div>
-                            <div style={{height: '100vh', width: '50%',overflowY: "scroll"}}>
+                            </Grid>
+                            <Grid item xs={6} style={{overflowY: "scroll"}}>
                                 {typeof(coordinate)!=="undefined" && coordinate.map(item => {
                                     return (
                                         <Card>
@@ -81,8 +81,8 @@ export default function Discover() {
                                         </Card>
                                     )
                                 })}
-                            </div>
-                        </div>
+                            </Grid>
+                        </Grid>
                     </div>
                 </section>
             </div>
