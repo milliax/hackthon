@@ -1,5 +1,4 @@
 import Title from "../component/Title";
-import Head from "next/head";
 import GoogleMap from 'google-map-react'
 import {useState} from "react";
 import EditLocationIcon from '@material-ui/icons/EditLocation';
