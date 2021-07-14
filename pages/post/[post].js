@@ -30,7 +30,7 @@ export default function Post({data}) {
 export async function getStaticProps(context) {
     const post = context.params.post
 
-    const res = await fetch(`${process.env.NEXT_PUBLIC_STATIC}/hackthon/${post}.json`)
+    const res = await fetch(`https://static.sivir.pw/hackthon/${post}.json`)
     const data = await res.json()
 
     return {
