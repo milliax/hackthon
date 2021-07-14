@@ -103,29 +103,12 @@ export default function Report() {
         return (
             <Paper component="ul" className={classes.root}>
                 {arr}
-                {
-                    (arr.length === 0) ?
-                        <li>無選擇的分類</li> :
-                        null
-                }
             </Paper>
         )
     }
 
     function handleClear(){
-        for(let e of categoriesSelectedData) {
-            setCategoriesSelectedData(previous => {
-                return previous.filter(x => {
-                    return x.id !== e.id
-                })
-            })
-            setCategories(previous => {
-                return [
-                    ...previous,
-                    e
-                ]
-            })
-        }
+        setCategoriesSelectedData([])
     }
 
     function ShowSelectedCategories(props){
@@ -144,6 +127,11 @@ export default function Report() {
         return (
             <Paper component="ul" className={classes.root}>
                 {arr}
+                {
+                    (arr.length === 0) ?
+                        <li>無選擇的分類</li> :
+                        null
+                }
             </Paper>
         )
     }
@@ -184,7 +172,7 @@ export default function Report() {
                                                     <ShowSelectedCategories categories={categoriesSelectedData} />
                                                 </Grid>
                                                 <Grid item xs={2} justifyContent="center">
-                                                    <ExpandMoreIcon
+                                                    <AddIcon
                                                         onClick={() => setCategoryExpanded(!categoryExpanded)}/>
                                                 </Grid>
                                                 <Grid item={1}>
