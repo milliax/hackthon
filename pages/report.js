@@ -32,7 +32,7 @@ export default function Report() {
     ])
     const [categoriesSelectedData, setCategoriesSelectedData] = useState([])
     const [categoryExpanded, setCategoryExpanded] = useState(false)
-    const isInitState = useRef(false)
+    const isInitState = useRef(true)
 
     async function Send() {
         try {
@@ -153,14 +153,16 @@ export default function Report() {
             headers: new Headers({
                 Accept: "application/json"
             })
-        }).then(r=>{
+        }).then(r=>r.json()).then(r=>{
             console.log(r)
-            console.log(10)
+            setCategories(r)
         })
+
     }
 
     useEffect(()=>{
         if(isInitState.current){
+            isInitState.current = false
             loadCategories()
         }
     })
