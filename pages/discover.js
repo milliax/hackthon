@@ -12,9 +12,27 @@ export default function Discover() {
     const [zoom,setZoom] = useState(7)
     const [coordinate, setCoordinate] = useState([])
 
-    async function getFile() {
+    function handleGeoClick() {
+        navigator.geolocation.getCurrentPosition(geoSuccess, geoError, {
+            enableHighAccuracy: true
+        });
+    }
+
+    function geoSuccess(pos) {
+        getFile(pos.coords.latitude, pos.coords.longitude)
+    }
+
+    function geoError(err) {
+        alert(`位置錯誤${err.message}`)
+    }
+
+    async function getFile(lat,lng) {
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_ENDPOINT}/api/posts`, {
+            let params = ''
+            if(typeof lat !== 'undefined' && typeof lng !== 'undefined'){
+                params = `?lat=${lat}&lng=${lng}`
+            }
+            const res = await fetch(`${process.env.NEXT_PUBLIC_ENDPOINT}/api/posts${params}`, {
                 method: "GET",
                 headers: {
                     'Accept': 'application/json',
@@ -70,7 +88,13 @@ export default function Discover() {
                                     })}
                                 </GoogleMap>
                             </Grid>
-                            <Grid item xs={6} style={{overflowY: "scroll"}}>
+                            <Grid item xs={6} style={{overflowY: "scroll"}} spacing={2}>
+                                <button className={styles.customizedBtnHover}
+                                        style={{backgroundColor: "darkgrey", width:"100%", borderRadius: "5px"}}
+                                        onClick={handleGeoClick}>
+                                    查看我附近的志願服務
+                                </button>
+                                <hr/>
                                 {typeof(coordinate)!=="undefined" && coordinate.map((item,index) => {
                                     return (
                                         <Card>
@@ -87,6 +111,11 @@ export default function Discover() {
                                             <Card.Body>
                                                 <Card.Title style={{color: 'black'}} hidden={typeof(item.categories) === "undefined"} >{item.categories}</Card.Title>
                                                 <Card.Text style={{color: 'black'}}>
+                                                    {
+                                                        item?.distance ?
+                                                            <span>{item.distance} Km</span> :
+                                                            null
+                                                    }
                                                     {item.content}
                                                 </Card.Text>
                                             </Card.Body>
