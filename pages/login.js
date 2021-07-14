@@ -37,7 +37,6 @@ export default function Login() {
                 icon: 'success',
                 title: '登入成功'
             })
-            cookies.set('reload',true)
             await router.push('/')
         }catch(err){
             await Swal.fire({

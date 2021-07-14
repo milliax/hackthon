@@ -1,37 +1,39 @@
 import Link from 'next/link'
 import Cookies from "universal-cookie";
-import {useEffect, useRef, useState} from "react";
+import {useState} from "react";
 import Swal from "sweetalert2";
+import {Container,Navbar,Nav} from "react-bootstrap";
 
 export default function Navigation() {
     const cookies = new Cookies()
+    const [loggedIn, setLoggedIn] = useState(false)
 
-    useEffect(()=>{
-        const reload = cookies.get('reload')
-        if(typeof(reload)!=="undefined"){
-            cookies.remove('reload')
-            window.location.reload()
-        }
-    },[])
-
-    function logout(){
-        cookies.set('access_token',null)
+    function logout() {
+        cookies.set('access_token', null)
         Swal.fire({
             icon: "success",
             title: "成功",
             text: "登出成功"
         })
     }
-
-    const loggedIn = ()=>{
-        const access = cookies.get('access_token')
-        if(typeof(access) === "undefined"){
-            return false
-        }else{
-            return true
-        }
-    }
-
+    return(
+        <Navbar bg="dark" expand="lg">
+            <Container style={{color: 'white'}}>
+                <Navbar.Brand href="/"><div className="logo" style={{color: 'white'}}><strong>SDGs 15th</strong> <span>By usapnayn</span></div></Navbar.Brand>
+                <Navbar.Toggle aria-controls="basic-navbar-nav"/>
+                <Navbar.Collapse id="basic-navbar-nav">
+                    <Nav className="me-auto">
+                        <Nav.Link href="/report" style={{color: 'white'}}>申報危機</Nav.Link>
+                        <Nav.Link href="/discover" style={{color: 'white'}}>探索</Nav.Link>
+                        <Nav.Link href="/login" style={{color: 'white'}}>登入</Nav.Link>
+                        <Nav.Link href="/signup" style={{color: 'white'}}>註冊</Nav.Link>
+                    </Nav>
+                </Navbar.Collapse>
+            </Container>
+        </Navbar>
+    )
+}
+/*
     return (
         <nav id="menu">
             <ul className="links">
@@ -55,4 +57,5 @@ export default function Navigation() {
             </ul>
         </nav>
     )
-}
+
+}*/

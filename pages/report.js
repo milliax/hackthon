@@ -15,13 +15,15 @@ import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import GoogleMapSection from "../component/Report/GoogleMapSection";
 import Cookies from "universal-cookie/lib";
 import FormData from 'form-data';
+import {useRouter} from "next/router";
 
 export default function Report() {
+    const router = useRouter()
     const cookies = new Cookies()
-    const center = {lat:23,lng:120}
+    const center = {lat: 23, lng: 120}
     const [latitude, setLatitude] = useState(23)
     const [longitude, setLongitude] = useState(120)
-    const [zoom,setZoom] = useState(7)
+    const zoom = 7
     const [name, setName] = useState('')
     const [content, setContent] = useState('')
     const [loading, setLoading] = useState(false)
@@ -31,7 +33,6 @@ export default function Report() {
     const [images, setImages] = useState([])
     const FileInputElement = useRef()
     const submitFormData = new FormData()
-    //const [imageUrl, setImageUrl] = useState('')
     const isInitState = useRef(true)
 
     async function Send() {
@@ -41,9 +42,9 @@ export default function Report() {
             submitFormData.append('content', content)
             submitFormData.append('lat', latitude)
             submitFormData.append('lng', longitude)
-            categoriesSelectedData.map(x => x.id).forEach(x=>submitFormData.append('categories[]', x))
+            categoriesSelectedData.map(x => x.id).forEach(x => submitFormData.append('categories[]', x))
             let files = FileInputElement.current.files;
-            for(let file of files){
+            for (let file of files) {
                 submitFormData.append('image[]', file)
             }
 
@@ -57,7 +58,7 @@ export default function Report() {
             })
             const response = await res.json()
             setLoading(false)
-            if(typeof response.status !== 'undefined' && response.status !== 200){
+            if (typeof response.status !== 'undefined' && response.status !== 200) {
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops...',
@@ -68,7 +69,7 @@ export default function Report() {
                     icon: 'success',
                     title: '成功',
                     text: '成功回報'
-                }).then(()=>{
+                }).then(() => {
                     location.href = '/'
                 })
             }
@@ -167,23 +168,23 @@ export default function Report() {
         )
     }
 
-    function setFormData(){
+    function setFormData() {
         submitFormData.append(...arguments)
     }
 
     function handleChangeImage(evt) {
         var files = evt.target.files;
-        for(let file of files){
-            (function(file){
+        for (let file of files) {
+            (function (file) {
                 var reader = new FileReader();
                 reader.onload = function (upload) {
-                    setImages((prev)=>{
-                        if(prev.length >= 5) {
+                    setImages((prev) => {
+                        if (prev.length >= 5) {
                             Swal.fire({
                                 icon: "error",
-                                title: "錯誤" ,
+                                title: "錯誤",
                                 text: "只能上傳最多五張照片，請重新上傳"
-                            }).then(()=>{
+                            }).then(() => {
                                 setImages([])
                             })
                         }
@@ -195,25 +196,38 @@ export default function Report() {
         }
     }
 
-    function loadCategories(){
-        fetch(`${process.env.NEXT_PUBLIC_ENDPOINT}/api/categories`,{
+    function loadCategories() {
+        fetch(`${process.env.NEXT_PUBLIC_ENDPOINT}/api/categories`, {
             method: "GET",
             headers: new Headers({
                 Accept: "application/json"
             })
-        }).then(r=>r.json()).then(r=>{
+        }).then(r => r.json()).then(r => {
             console.log(r)
             setCategories(r)
         })
 
     }
 
-    useEffect(()=>{
-        if(isInitState.current){
+    useEffect(() => {
+        if (isInitState.current) {
             isInitState.current = false
             loadCategories()
         }
-    })
+        checkLoggedIn()
+    }, [])
+
+    function checkLoggedIn() {
+        const access = cookies.get('access_token')
+        if (typeof (access) === "undefined") {
+            Swal.fire({
+                icon: 'error',
+                title: '需要帳號',
+                text: "請先登入"
+            })
+            router.push('/login')
+        }
+    }
 
     return (
         <div id="wrapper">
@@ -265,9 +279,14 @@ export default function Report() {
                                         </Collapse>
                                     </div>
                                     <div className="col-12">
-                                        <div style={{height: '60vh',display:'flex',alignItems: 'center',position: 'relative'}}>
-                                            <div style={{height:'100%',width:'100%'}}>
-                                                <GoogleMapSection onChange={(lat,lng)=>{
+                                        <div style={{
+                                            height: '60vh',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            position: 'relative'
+                                        }}>
+                                            <div style={{height: '100%', width: '100%'}}>
+                                                <GoogleMapSection onChange={(lat, lng) => {
                                                     setLongitude(lng)
                                                     setLatitude(lat)
                                                 }}
@@ -281,7 +300,8 @@ export default function Report() {
                                     </div>
 
                                     <div className={"col-12"}>
-                                        <button hidden={images.length >= 5} onClick={()=>file.click()} className="primary" style={{fontSize: "11px"}} type={'button'}>
+                                        <button hidden={images.length >= 5} onClick={() => file.click()}
+                                                className="primary" style={{fontSize: "11px"}} type={'button'}>
                                             上傳圖片 ({images.length}/5)
                                         </button>
                                         <input type="file" name="file"
@@ -295,18 +315,18 @@ export default function Report() {
                                         />
                                         <br/>
                                         <Grid container spacing={2}>
-                                        {
-                                            images.map((img)=>{
-                                                return (
-                                                    <Grid item key={Math.random()}>
-                                                        <img
-                                                        width={300}
-                                                        src={img}
-                                                        alt={'Image'}/>
-                                                    </Grid>
-                                                )
-                                            })
-                                        }
+                                            {
+                                                images.map((img) => {
+                                                    return (
+                                                        <Grid item key={Math.random()}>
+                                                            <img
+                                                                width={300}
+                                                                src={img}
+                                                                alt={'Image'}/>
+                                                        </Grid>
+                                                    )
+                                                })
+                                            }
                                         </Grid>
                                     </div>
 
