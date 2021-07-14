@@ -95,8 +95,8 @@ export default function Report() {
                 <li key={cat.id}>
                     <Chip
                         label={cat.name}
-                        onDelete={e => handleAdd(cat)}
-                        onClick={e => handleAdd(cat)}
+                        onDelete={() => handleAdd(cat)}
+                        onClick={() => handleAdd(cat)}
                         deleteIcon={<AddIcon/>}
                     />
                 </li>
