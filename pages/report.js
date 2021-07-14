@@ -8,25 +8,27 @@ import {
     LinearProgress,
     makeStyles,
     Paper,
-    Container, Link
+    Link
 } from "@material-ui/core";
 import AddIcon from '@material-ui/icons/Add';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+import GoogleMapSection from "../component/Report/GoogleMapSection";
 
 export default function Report() {
+    const center = {lat:23,lng:120}
     const [latitude, setLatitude] = useState(23)
     const [longitude, setLongitude] = useState(120)
+    const [zoom,setZoom] = useState(7)
     const [name, setName] = useState('')
     const [content, setContent] = useState('')
     const [loading, setLoading] = useState(false)
     const [categories, setCategories] = useState([
-        {id: 1, name: "Web"},
-        {id: 2, name: "C++"},
-        {id: 3, name: "++C"},
-        {id: 4, name: "JS"},
-        {id: 5, name: "FQN"},
-        {id: 6, name: "LCS"}
+        {id: 1, name: "陸域生態系統破壞"},
+        {id: 2, name: "森林管理缺失"},
+        {id: 3, name: "沙漠化"},
+        {id: 4, name: "土地劣化"},
+        {id: 5, name: "生物多樣性喪失"}
     ])
     const [categoriesSelectedData, setCategoriesSelectedData] = useState([])
     const [categoryExpanded, setCategoryExpanded] = useState(false)
@@ -96,7 +98,6 @@ export default function Report() {
                         onDelete={e => handleAdd(cat)}
                         onClick={e => handleAdd(cat)}
                         deleteIcon={<AddIcon/>}
-                        key={cat.id}
                     />
                 </li>
             )
@@ -154,6 +155,17 @@ export default function Report() {
                             <h1>通報問題</h1>
                         </header>
                         <div style={{height: '100vh', width: '100%'}}>
+                            <div style={{height: '70vh', width: '55%'}}>
+                                <GoogleMapSection onChange={(lat,lng)=>{
+                                    setLongitude(lng)
+                                    setLatitude(lat)
+                                }}
+                                                  zoom={zoom}
+                                                  center={center}
+                                                  longitude={longitude}
+                                                  latitude={latitude}
+                                />
+                            </div>
                             <form onSubmit={event => {
                                 event.preventDefault()
                                 Send()
