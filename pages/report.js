@@ -13,20 +13,22 @@ import {
 import AddIcon from '@material-ui/icons/Add';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+import GoogleMapSection from "../component/Report/GoogleMapSection";
 
 export default function Report() {
-    const [latitude,setLatitude] = useState(23)
-    const [longitude,setLongitude] = useState(120)
+    const center = {lat:23,lng:120}
+    const [latitude, setLatitude] = useState(23)
+    const [longitude, setLongitude] = useState(120)
+    const [zoom,setZoom] = useState(7)
     const [name, setName] = useState('')
     const [content, setContent] = useState('')
     const [loading, setLoading] = useState(false)
     const [categories, setCategories] = useState([
-        {id: 1, name: "Web"},
-        {id: 2, name: "C++"},
-        {id: 3, name: "++C"},
-        {id: 4, name: "JS"},
-        {id: 5, name: "FQN"},
-        {id: 6, name: "LCS"}
+        {id: 1, name: "陸域生態系統破壞"},
+        {id: 2, name: "森林管理缺失"},
+        {id: 3, name: "沙漠化"},
+        {id: 4, name: "土地劣化"},
+        {id: 5, name: "生物多樣性喪失"}
     ])
     const [categoriesSelectedData, setCategoriesSelectedData] = useState([])
     const [categoryExpanded, setCategoryExpanded] = useState(false)
@@ -85,41 +87,26 @@ export default function Report() {
             },
         }));
         const classes = useStyles();
-        let arr = []
-        for (let cat of props.categories) {
-            arr.push(
-                <li key={cat.id}>
-                    <Chip
-                        label={cat.name}
-                        onDelete={e => handleAdd(cat)}
-                        deleteIcon={<AddIcon/>}
-                        key={cat.id}
-                    />
-                </li>
-            )
-        }
+
         return (
             <Paper component="ul" className={classes.root}>
-                {arr}
+                {props.categories.map(item => {
+                    return (
+                        <li key={item.id}>
+                            <Chip
+                                label={item.name}
+                                onDelete={e => handleAdd(item)}
+                                deleteIcon={<AddIcon/>}
+                            />
+                        </li>
+                    )
+                })}
             </Paper>
         )
     }
 
-    function SelectedCategories(props) {
-        let arr = []
-        for (let cat of props.categories) {
-            arr.push(
-                <option value={cat.id}
-                        key={cat.id}>
-                    {cat.name}
-                </option>
-            )
-        }
-        return arr
-    }
-
-    function handleClear(){
-        for(let e of categoriesSelectedData) {
+    function handleClear() {
+        for (let e of categoriesSelectedData) {
             setCategoriesSelectedData(previous => {
                 return previous.filter(x => {
                     return x.id !== e.id
@@ -144,53 +131,75 @@ export default function Report() {
                         <header className="major">
                             <h1>通報問題</h1>
                         </header>
-                        <div style={{height: '100vh', width: '100%'}}>
-                            <form onSubmit={event => {
-                                event.preventDefault()
-                                Send()
-                            }}>
-                                <div className="row gtr-uniform">
-                                    <div className="col-12">
-                                        <input type="text"
-                                               value={name}
-                                               onChange={e => {
-                                                   setName(e.target.value)
-                                               }}
-                                               placeholder="通報問題名稱"/>
-                                    </div>
-                                    <div className="col-12">
+                        <div style={{display: 'flex',flexWrap:'wrap'}}>
+                            <div style={{height: '70vh', width: '55%'}}>
+                                <GoogleMapSection onChange={(lat,lng)=>{
+                                                        setLongitude(lng)
+                                                        setLatitude(lat)
+                                                    }}
+                                                  zoom={zoom}
+                                                  center={center}
+                                                  longitude={longitude}
+                                                  latitude={latitude}
+                                />
+                            </div>
+                            <div style={{height: '100vh', width: '5%'}} />
+                            <div style={{height: '100vh', width: '40%'}}>
+                                <form onSubmit={event => {
+                                    event.preventDefault()
+                                    Send()
+                                }}>
+                                    <div className="row gtr-uniform">
+                                        <div className="col-12">
+                                            <input type="text"
+                                                   value={name}
+                                                   onChange={e => {
+                                                       setName(e.target.value)
+                                                   }}
+                                                   placeholder="通報問題名稱"/>
+                                        </div>
+                                        <div className="col-12">
                                         <textarea value={content} onChange={e => {
                                             setContent(e.target.value)
                                         }} placeholder="通報內容" rows={5}/>
-                                    </div>
-                                    <Container>
-                                        <div className={"col-12"}>
-                                            <Grid container spacing={2} justifyContent="space-between">
-                                                <Grid item xs={9}>
-                                                    <select multiple className={"ml-2 w-100"}>
-                                                        <SelectedCategories categories={categoriesSelectedData}/>
-                                                    </select>
-                                                </Grid>
-                                                <Grid item xs={2} justifyContent="center">
-                                                    <ExpandMoreIcon
-                                                        onClick={() => setCategoryExpanded(!categoryExpanded)}/>
-                                                </Grid>
-                                                <Grid item={1}>
-                                                    <DeleteForeverIcon onClick={handleClear}/>
-                                                </Grid>
-                                            </Grid>
-                                            <Collapse in={categoryExpanded} timeout="auto" unmountOnExit>
-                                                <CardContent>
-                                                    <ShowCategories categories={categories}/>
-                                                </CardContent>
-                                            </Collapse>
                                         </div>
-                                    </Container>
-                                    <div className="col-12">
-                                        <button type="submit" className="primary" style={{width: "100%"}}>通報</button>
+                                        <Container>
+                                            <div className={"col-12"}>
+                                                <Grid container spacing={2} justifyContent="space-between">
+                                                    <Grid item xs={9}>
+                                                        <select multiple className={"ml-2 w-100"}>
+                                                            {typeof (categoriesSelectedData) !== "undefined" && categoriesSelectedData.map(item => {
+                                                                return (
+                                                                    <option value={item.id}
+                                                                            key={item.id}>
+                                                                        {item.name}
+                                                                    </option>
+                                                                )
+                                                            })}
+                                                        </select>
+                                                    </Grid>
+                                                    <Grid item xs={2} justifyContent="center">
+                                                        <ExpandMoreIcon
+                                                            onClick={() => setCategoryExpanded(!categoryExpanded)}/>
+                                                    </Grid>
+                                                    <Grid item={1}>
+                                                        <DeleteForeverIcon onClick={handleClear}/>
+                                                    </Grid>
+                                                </Grid>
+                                                <Collapse in={categoryExpanded} timeout="auto" unmountOnExit>
+                                                    <CardContent>
+                                                        <ShowCategories categories={categories}/>
+                                                    </CardContent>
+                                                </Collapse>
+                                            </div>
+                                        </Container>
+                                        <div className="col-12">
+                                            <button type="submit" className="primary" style={{width: "100%"}}>通報
+                                            </button>
+                                        </div>
                                     </div>
-                                </div>
-                            </form>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </section>
