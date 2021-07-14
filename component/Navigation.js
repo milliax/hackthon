@@ -1,31 +1,47 @@
 import Link from 'next/link'
 import Cookies from "universal-cookie";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import Swal from "sweetalert2";
-import {Container,Navbar,Nav} from "react-bootstrap";
+import {Container, Navbar, Nav} from "react-bootstrap";
 
 export default function Navigation() {
     const cookies = new Cookies()
     const [loggedIn, setLoggedIn] = useState(false)
 
-    function logout() {
-        cookies.set('access_token', null)
-        Swal.fire({
-            icon: "success",
-            title: "成功",
-            text: "登出成功"
-        })
-    }
-    return(
+    useEffect(() => {
+        const access = cookies.get('access_token')
+        if (typeof (access) === "undefined") {
+            console.log('not logged in')
+            setLoggedIn(false)
+        } else {
+            console.log('logged in')
+            setLoggedIn(true)
+        }
+    }, [])
+
+    return (
         <Navbar bg="dark" expand="lg">
             <Container style={{color: 'white'}}>
-                <Navbar.Brand href="/"><div className="logo" style={{color: 'white'}}><strong>V-SDGs</strong> <span>By usapnayn</span></div></Navbar.Brand>
+                <Navbar.Brand href="/">
+                    <div className="logo" style={{color: 'white'}}><strong>V-SDGs</strong> <span>By usapnayn</span>
+                    </div>
+                </Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav"/>
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">
-                        <Nav.Link href="/dashboard" style={{color: 'white'}}>平台總覽</Nav.Link>
-                        <Nav.Link href="/login" style={{color: 'white'}}>登入</Nav.Link>
-                        <Nav.Link href="/signup" style={{color: 'white'}}>註冊</Nav.Link>
+                        {!loggedIn ?
+                            <>
+                                <Nav.Link href="/dashboard" style={{color: 'white'}}>平台總覽</Nav.Link>
+                                <Nav.Link href="/login" style={{color: 'white'}}>登入</Nav.Link>
+                                <Nav.Link href="/signup" style={{color: 'white'}}>註冊</Nav.Link>
+                            </>
+                            :
+                            <>
+                                <Nav.Link href="/report" style={{color: 'white'}}>通報環境災害</Nav.Link>
+                                <Nav.Link href="/discover" style={{color: 'white'}}>探索附近災害</Nav.Link>
+                                <Nav.Link href="/logout" style={{color: 'white'}}>登出</Nav.Link>
+                            </>
+                        }
                     </Nav>
                 </Navbar.Collapse>
             </Container>

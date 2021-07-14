@@ -1,5 +1,3 @@
-import Form from '../component/Footer/Form'
-import Link from "next/link";
 
 export default function Footer(){
     return(
@@ -11,7 +9,7 @@ export default function Footer(){
                             <div className="contact-method">
                                 <span className="icon solid alt fa-surprise" />
                                 <h3>意見回饋</h3>
-                                <Link href="/feedback">Feedback 表單</Link>
+                                <a href="/feedback">Feedback 表單</a>
                             </div>
                         </section>
 

@@ -1,9 +1,7 @@
-import {useState} from "react";
+import {useState,useEffect} from "react";
 import Title from "../component/Title";
-import GoogleMap from "google-map-react";
-import EditLocationIcon from "@material-ui/icons/EditLocation";
-import {Button, Card} from "react-bootstrap";
 import Footer from "../component/Footer";
+import Swal from 'sweetalert2'
 
 export default function Feedback(){
     const [email,setEmail] = useState('')
@@ -19,9 +17,17 @@ export default function Feedback(){
                 method: 'POST',
                 mode: 'no-cors'
             })
-            window.alert(`Message sent successful`)
+            await Swal.fire({
+                icon: 'success',
+                title: '傳送成功',
+                text: '我們將會盡快回復您的問題'
+            })
         }catch (err){
-            window.alert(`Message sent FAILED: ${err}`)
+            await Swal.fire({
+                icon: 'error',
+                title: '傳送失敗',
+                text: `歐喔~ 好像哪裡出了錯： ${err}`
+            })
         }
         setQuestion('')
         setName('')
@@ -32,6 +38,11 @@ export default function Feedback(){
         setName('')
         setEmail('')
     }
+
+    useEffect(()=>{
+        console.log('moving to top')
+        window.scrollTo(0,0);
+    },[])
 
     return(
         <div id="wrapper">
