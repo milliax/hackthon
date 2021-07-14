@@ -8,7 +8,7 @@ import {
     LinearProgress,
     makeStyles,
     Paper,
-    Container
+    Link
 } from "@material-ui/core";
 import AddIcon from '@material-ui/icons/Add';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
@@ -43,7 +43,8 @@ export default function Report() {
                     'Content-Type': 'application/json'
                 }, body: JSON.stringify({
                     name,
-                    content
+                    content,
+                    categories: categoriesSelectedData.map(x => x.id)
                 })
             })
             const response = await res.json()
@@ -57,6 +58,20 @@ export default function Report() {
             })
         }
     }
+
+    const useStyles = makeStyles((theme) => ({
+        root: {
+            display: 'flex',
+            justifyContent: 'center',
+            flexWrap: 'wrap',
+            listStyle: 'none',
+            padding: theme.spacing(0.5),
+            margin: 0
+        },
+        chip: {
+            margin: theme.spacing(0.5),
+        },
+    }));
 
     function handleAdd(e) {
         setCategories((prev) => {
@@ -73,52 +88,60 @@ export default function Report() {
     }
 
     function ShowCategories(props) {
-        const useStyles = makeStyles((theme) => ({
-            root: {
-                display: 'flex',
-                justifyContent: 'center',
-                flexWrap: 'wrap',
-                listStyle: 'none',
-                padding: theme.spacing(0.5),
-                margin: 0,
-            },
-            chip: {
-                margin: theme.spacing(0.5),
-            },
-        }));
         const classes = useStyles();
-
+        let arr = []
+        for (let cat of props.categories) {
+            arr.push(
+                <li key={cat.id}>
+                    <Chip
+                        label={cat.name}
+                        onDelete={() => handleAdd(cat)}
+                        onClick={() => handleAdd(cat)}
+                        deleteIcon={<AddIcon/>}
+                    />
+                </li>
+            )
+        }
         return (
             <Paper component="ul" className={classes.root}>
-                {props.categories.map(item => {
-                    return (
-                        <li key={item.id}>
-                            <Chip
-                                label={item.name}
-                                onDelete={e => handleAdd(item)}
-                                deleteIcon={<AddIcon/>}
-                            />
-                        </li>
-                    )
-                })}
+                {arr}
+                {
+                    (arr.length === 0) ?
+                        <li>無分類</li> :
+                        null
+                }
+                <Link href={"/addCategory"}>&nbsp;新增分類</Link>
             </Paper>
         )
     }
 
     function handleClear() {
-        for (let e of categoriesSelectedData) {
-            setCategoriesSelectedData(previous => {
-                return previous.filter(x => {
-                    return x.id !== e.id
-                })
-            })
-            setCategories(previous => {
-                return [
-                    ...previous,
-                    e
-                ]
-            })
+        setCategoriesSelectedData([])
+    }
+
+    function ShowSelectedCategories(props) {
+        const classes = useStyles();
+        let arr = []
+        for (let cat of props.categories) {
+            arr.push(
+                <li key={'selected_' + cat.id}>
+                    <Chip
+                        label={cat.name}
+                        key={cat.id}
+                    />
+                </li>
+            )
         }
+        return (
+            <Paper component="ul" className={classes.root}>
+                {arr}
+                {
+                    (arr.length === 0) ?
+                        <li>無選擇的分類</li> :
+                        null
+                }
+            </Paper>
+        )
     }
 
     return (
@@ -131,75 +154,60 @@ export default function Report() {
                         <header className="major">
                             <h1>通報問題</h1>
                         </header>
-                        <div style={{display: 'flex',flexWrap:'wrap'}}>
+                        <div style={{height: '100vh', width: '100%'}}>
                             <div style={{height: '70vh', width: '55%'}}>
                                 <GoogleMapSection onChange={(lat,lng)=>{
-                                                        setLongitude(lng)
-                                                        setLatitude(lat)
-                                                    }}
+                                    setLongitude(lng)
+                                    setLatitude(lat)
+                                }}
                                                   zoom={zoom}
                                                   center={center}
                                                   longitude={longitude}
                                                   latitude={latitude}
                                 />
                             </div>
-                            <div style={{height: '100vh', width: '5%'}} />
-                            <div style={{height: '100vh', width: '40%'}}>
-                                <form onSubmit={event => {
-                                    event.preventDefault()
-                                    Send()
-                                }}>
-                                    <div className="row gtr-uniform">
-                                        <div className="col-12">
-                                            <input type="text"
-                                                   value={name}
-                                                   onChange={e => {
-                                                       setName(e.target.value)
-                                                   }}
-                                                   placeholder="通報問題名稱"/>
-                                        </div>
-                                        <div className="col-12">
+                            <form onSubmit={event => {
+                                event.preventDefault()
+                                Send()
+                            }}>
+                                <div className="row gtr-uniform">
+                                    <div className="col-12">
+                                        <input type="text"
+                                               value={name}
+                                               onChange={e => {
+                                                   setName(e.target.value)
+                                               }}
+                                               placeholder="通報問題名稱"/>
+                                    </div>
+                                    <div className="col-12">
                                         <textarea value={content} onChange={e => {
                                             setContent(e.target.value)
                                         }} placeholder="通報內容" rows={5}/>
-                                        </div>
-                                        <Container>
-                                            <div className={"col-12"}>
-                                                <Grid container spacing={2} justifyContent="space-between">
-                                                    <Grid item xs={9}>
-                                                        <select multiple className={"ml-2 w-100"}>
-                                                            {typeof (categoriesSelectedData) !== "undefined" && categoriesSelectedData.map(item => {
-                                                                return (
-                                                                    <option value={item.id}
-                                                                            key={item.id}>
-                                                                        {item.name}
-                                                                    </option>
-                                                                )
-                                                            })}
-                                                        </select>
-                                                    </Grid>
-                                                    <Grid item xs={2} justifyContent="center">
-                                                        <ExpandMoreIcon
-                                                            onClick={() => setCategoryExpanded(!categoryExpanded)}/>
-                                                    </Grid>
-                                                    <Grid item={1}>
-                                                        <DeleteForeverIcon onClick={handleClear}/>
-                                                    </Grid>
-                                                </Grid>
-                                                <Collapse in={categoryExpanded} timeout="auto" unmountOnExit>
-                                                    <CardContent>
-                                                        <ShowCategories categories={categories}/>
-                                                    </CardContent>
-                                                </Collapse>
-                                            </div>
-                                        </Container>
-                                        <div className="col-12">
-                                            <button type="submit" className="primary" style={{width: "100%"}}>通報
-                                            </button>
-                                        </div>
                                     </div>
-                                </form>
-                            </div>
+                                    <div className={"col-12"}>
+                                        <Grid container spacing={2} justifyContent="space-between">
+                                            <Grid item xs={11}>
+                                                <ShowSelectedCategories categories={categoriesSelectedData}/>
+                                            </Grid>
+                                            <Grid item xs={0.5} justifyContent="center">
+                                                <AddIcon
+                                                    onClick={() => setCategoryExpanded(!categoryExpanded)}/>
+                                            </Grid>
+                                            <Grid item xs={0.5}>
+                                                <DeleteForeverIcon onClick={handleClear}/>
+                                            </Grid>
+                                        </Grid>
+                                        <Collapse in={categoryExpanded} timeout="auto" unmountOnExit>
+                                            <CardContent>
+                                                <ShowCategories categories={categories}/>
+                                            </CardContent>
+                                        </Collapse>
+                                    </div>
+                                    <div className="col-12">
+                                        <button type="submit" className="primary" style={{width: "100%"}}>通報</button>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </section>
