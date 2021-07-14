@@ -36,14 +36,15 @@ export default function Report() {
     async function Send() {
         try {
             setLoading(true)
-            const res = await fetch(`${process.env.NEXT_PUBLIC_ENDPOINT}/posts`, {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_ENDPOINT}/api/posts`, {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 }, body: JSON.stringify({
                     name,
-                    content
+                    content,
+                    categoriesSelectedData,
                 })
             })
             const response = await res.json()

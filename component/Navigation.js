@@ -5,6 +5,8 @@ export default function Navigation() {
         <nav id="menu">
             <ul className="links">
                 <li><Link href="/">主畫面</Link></li>
+                <li><Link href="/discover">檢視</Link></li>
+                <li><Link href="/report">回報問題</Link></li>
             </ul>
             <ul className="actions stacked">
                 <li><a href="/login" className="button primary fit">登入</a></li>
