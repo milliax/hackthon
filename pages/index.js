@@ -7,7 +7,7 @@ export default function Home() {
     return (
         <div id="wrapper">
             <header id="header" className="alt">
-                <a href="/" className="logo"><strong>FIFTEEN</strong> <span>By usapnayn</span></a>
+                <a href="/" className="logo"><strong>V-SDGs</strong><span>By Team usapnayn</span></a>
                 <nav>
                     <a href="#menu">Menu</a>
                 </nav>
@@ -16,12 +16,12 @@ export default function Home() {
             <section id="banner" className="major">
                 <div className="inner">
                     <header className="major">
-                        <h1>聯合國永續發展</h1>
+                        <h1>SDG志願者媒合平台</h1>
                     </header>
                     <div className="content">
-                        <p>根據聯合國永續發展第15項</p>
+                        <p>志願者，是一群強大的力量，能撐起一個個美好的理想</p>
                         <ul className="actions">
-                            <li><a href="#one" className="button next scrolly">Get Started</a></li>
+                            <li><a href="/signup" className="button next scrolly">加入志願者行列</a></li>
                         </ul>
                     </div>
                 </div>
