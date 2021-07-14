@@ -41,7 +41,8 @@ export default function Report() {
                     'Content-Type': 'application/json'
                 }, body: JSON.stringify({
                     name,
-                    content
+                    content,
+                    categories: categoriesSelectedData.map(x=>x.id)
                 })
             })
             const response = await res.json()
@@ -55,6 +56,20 @@ export default function Report() {
             })
         }
     }
+
+    const useStyles = makeStyles((theme) => ({
+        root: {
+            display: 'flex',
+            justifyContent: 'center',
+            flexWrap: 'wrap',
+            listStyle: 'none',
+            padding: theme.spacing(0.5),
+            margin: 0
+        },
+        chip: {
+            margin: theme.spacing(0.5),
+        },
+    }));
 
     function handleAdd(e) {
         setCategories((prev) => {
@@ -71,19 +86,6 @@ export default function Report() {
     }
 
     function ShowCategories(props) {
-        const useStyles = makeStyles((theme) => ({
-            root: {
-                display: 'flex',
-                justifyContent: 'center',
-                flexWrap: 'wrap',
-                listStyle: 'none',
-                padding: theme.spacing(0.5),
-                margin: 0,
-            },
-            chip: {
-                margin: theme.spacing(0.5),
-            },
-        }));
         const classes = useStyles();
         let arr = []
         for (let cat of props.categories) {
@@ -101,21 +103,13 @@ export default function Report() {
         return (
             <Paper component="ul" className={classes.root}>
                 {arr}
+                {
+                    (arr.length === 0) ?
+                        <li>無選擇的分類</li> :
+                        null
+                }
             </Paper>
         )
-    }
-
-    function SelectedCategories(props) {
-        let arr = []
-        for (let cat of props.categories) {
-            arr.push(
-                <option value={cat.id}
-                        key={cat.id}>
-                    {cat.name}
-                </option>
-            )
-        }
-        return arr
     }
 
     function handleClear(){
@@ -132,6 +126,26 @@ export default function Report() {
                 ]
             })
         }
+    }
+
+    function ShowSelectedCategories(props){
+        const classes = useStyles();
+        let arr = []
+        for (let cat of props.categories) {
+            arr.push(
+                <li key={'selected_'+cat.id}>
+                    <Chip
+                        label={cat.name}
+                        key={cat.id}
+                    />
+                </li>
+            )
+        }
+        return (
+            <Paper component="ul" className={classes.root}>
+                {arr}
+            </Paper>
+        )
     }
 
     return (
@@ -167,9 +181,7 @@ export default function Report() {
                                         <div className={"col-12"}>
                                             <Grid container spacing={2} justifyContent="space-between">
                                                 <Grid item xs={9}>
-                                                    <select multiple className={"ml-2 w-100"}>
-                                                        <SelectedCategories categories={categoriesSelectedData}/>
-                                                    </select>
+                                                    <ShowSelectedCategories categories={categoriesSelectedData} />
                                                 </Grid>
                                                 <Grid item xs={2} justifyContent="center">
                                                     <ExpandMoreIcon
