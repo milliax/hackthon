@@ -8,15 +8,15 @@ import {
     LinearProgress,
     makeStyles,
     Paper,
-    Container
+    Container, Link
 } from "@material-ui/core";
 import AddIcon from '@material-ui/icons/Add';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 
 export default function Report() {
-    const [latitude,setLatitude] = useState(23)
-    const [longitude,setLongitude] = useState(120)
+    const [latitude, setLatitude] = useState(23)
+    const [longitude, setLongitude] = useState(120)
     const [name, setName] = useState('')
     const [content, setContent] = useState('')
     const [loading, setLoading] = useState(false)
@@ -42,7 +42,7 @@ export default function Report() {
                 }, body: JSON.stringify({
                     name,
                     content,
-                    categories: categoriesSelectedData.map(x=>x.id)
+                    categories: categoriesSelectedData.map(x => x.id)
                 })
             })
             const response = await res.json()
@@ -94,6 +94,7 @@ export default function Report() {
                     <Chip
                         label={cat.name}
                         onDelete={e => handleAdd(cat)}
+                        onClick={e => handleAdd(cat)}
                         deleteIcon={<AddIcon/>}
                         key={cat.id}
                     />
@@ -103,20 +104,26 @@ export default function Report() {
         return (
             <Paper component="ul" className={classes.root}>
                 {arr}
+                {
+                    (arr.length === 0) ?
+                        <li>無分類</li> :
+                        null
+                }
+                <Link href={"/addCategory"}>&nbsp;新增分類</Link>
             </Paper>
         )
     }
 
-    function handleClear(){
+    function handleClear() {
         setCategoriesSelectedData([])
     }
 
-    function ShowSelectedCategories(props){
+    function ShowSelectedCategories(props) {
         const classes = useStyles();
         let arr = []
         for (let cat of props.categories) {
             arr.push(
-                <li key={'selected_'+cat.id}>
+                <li key={'selected_' + cat.id}>
                     <Chip
                         label={cat.name}
                         key={cat.id}
@@ -165,27 +172,25 @@ export default function Report() {
                                             setContent(e.target.value)
                                         }} placeholder="通報內容" rows={5}/>
                                     </div>
-                                    <Container>
-                                        <div className={"col-12"}>
-                                            <Grid container spacing={2} justifyContent="space-between">
-                                                <Grid item xs={9}>
-                                                    <ShowSelectedCategories categories={categoriesSelectedData} />
-                                                </Grid>
-                                                <Grid item xs={2} justifyContent="center">
-                                                    <AddIcon
-                                                        onClick={() => setCategoryExpanded(!categoryExpanded)}/>
-                                                </Grid>
-                                                <Grid item={1}>
-                                                    <DeleteForeverIcon onClick={handleClear}/>
-                                                </Grid>
+                                    <div className={"col-12"}>
+                                        <Grid container spacing={2} justifyContent="space-between">
+                                            <Grid item xs={11}>
+                                                <ShowSelectedCategories categories={categoriesSelectedData}/>
                                             </Grid>
-                                            <Collapse in={categoryExpanded} timeout="auto" unmountOnExit>
-                                                <CardContent>
-                                                    <ShowCategories categories={categories}/>
-                                                </CardContent>
-                                            </Collapse>
-                                        </div>
-                                    </Container>
+                                            <Grid item xs={0.5} justifyContent="center">
+                                                <AddIcon
+                                                    onClick={() => setCategoryExpanded(!categoryExpanded)}/>
+                                            </Grid>
+                                            <Grid item xs={0.5}>
+                                                <DeleteForeverIcon onClick={handleClear}/>
+                                            </Grid>
+                                        </Grid>
+                                        <Collapse in={categoryExpanded} timeout="auto" unmountOnExit>
+                                            <CardContent>
+                                                <ShowCategories categories={categories}/>
+                                            </CardContent>
+                                        </Collapse>
+                                    </div>
                                     <div className="col-12">
                                         <button type="submit" className="primary" style={{width: "100%"}}>通報</button>
                                     </div>
