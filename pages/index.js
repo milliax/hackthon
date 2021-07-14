@@ -77,7 +77,8 @@ export default function Home() {
                 <section id="one" className="tiles">
                     <Spotlight title="給石虎安心的家"
                                context="為野生動物守護安心家園"
-                               link="/post/shihu_home"/>
+                               link="/post/shihu_home"
+                               className={"next"}/>
                     <Spotlight title="非法販賣的野生動物"
                                context="保護它們"
                                link="/post/illegal_trade"/>
