@@ -15,5 +15,5 @@ npm run dev
 
 ## Dockerized build
 ```shell
-docker run -p 3000:3000 
+docker run -p 3000:3000 hsuan1117/v-sdgs.fe:latest
 ```
