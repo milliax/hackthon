@@ -265,7 +265,7 @@ export default function Report() {
                                         </Collapse>
                                     </div>
                                     <div className="col-12">
-                                        <div style={{height: '50vh',display:'flex',alignItems: 'center',position: 'relative'}}>
+                                        <div style={{height: '60vh',display:'flex',alignItems: 'center',position: 'relative'}}>
                                             <div style={{height:'100%',width:'100%'}}>
                                                 <GoogleMapSection onChange={(lat,lng)=>{
                                                     setLongitude(lng)
