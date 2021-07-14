@@ -14,6 +14,7 @@ import AddIcon from '@material-ui/icons/Add';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import GoogleMapSection from "../component/Report/GoogleMapSection";
 import Cookies from "universal-cookie/lib";
+import FormData from 'form-data';
 
 export default function Report() {
     const cookies = new Cookies()
@@ -27,26 +28,32 @@ export default function Report() {
     const [categories, setCategories] = useState([])
     const [categoriesSelectedData, setCategoriesSelectedData] = useState([])
     const [categoryExpanded, setCategoryExpanded] = useState(false)
-    const [image, setImage] = useState('')
-    const [imageUrl, setImageUrl] = useState('')
+    const [images, setImages] = useState([])
+    const FileInputElement = useRef()
+    const submitFormData = new FormData()
+    //const [imageUrl, setImageUrl] = useState('')
     const isInitState = useRef(true)
 
     async function Send() {
         try {
             setLoading(true)
+            submitFormData.append('name', name)
+            submitFormData.append('content', content)
+            submitFormData.append('lat', latitude)
+            submitFormData.append('lng', longitude)
+            submitFormData.append('categories', categoriesSelectedData.map(x => x.id))
+            let files = FileInputElement.current.files;
+            for(let file of files){
+                submitFormData.append('image[]', file)
+            }
+
+            console.log(submitFormData)
             const res = await fetch(`${process.env.NEXT_PUBLIC_ENDPOINT}/api/posts`, {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
-                    'Content-Type': 'application/json',
                     "Authorization": `Bearer ${cookies.get('access_token')}`
-                }, body: JSON.stringify({
-                    name,
-                    content,
-                    lat: latitude,
-                    lng: longitude,
-                    categories: categoriesSelectedData.map(x => x.id)
-                })
+                }, body: submitFormData
             })
             const response = await res.json()
             setLoading(false)
@@ -160,56 +167,32 @@ export default function Report() {
         )
     }
 
-    function handleChangeImage(evt) {
-        var reader = new FileReader();
-        var file = evt.target.files[0];
+    function setFormData(){
+        submitFormData.append(...arguments)
+    }
 
-        reader.onload = function (upload) {
-            setImage(upload.target.result);
-            const formData = new FormData()
-            formData.append('image', file)
-            setLoading(true)
-            fetch(process.env.NEXT_PUBLIC_ENDPOINT + '/api/utils/uploadImage', {
-                method: 'POST',
-                headers: {
-                    "Accept": "application/json",
-                    "Authorization": `Bearer ${cookies.get('access_token')}`
-                },
-                body: formData
-            }).then(response => {
-                if (response.ok) {
-                    return response.json()
-                }
-                return response.text().then(res => {
-                    throw new Error(res)
-                })
-            }).then(response => {
-                console.log(typeof response)
-                setImageUrl(response?.details?.path)
-                setLoading(false)
-            }).catch((error) => {
-                //console.log(error.message)
-                let response = JSON.parse(error.message)
-                let str = ''
-                console.log(response)
-                if(typeof response.errors !== 'undefined') {
-                    console.log(response.errors)
-                    for(let key of Object.keys(response.errors)){
-                        console.log(key)
-                        for(let msg of response.errors[key]){
-                            str += msg + '\n'
+    function handleChangeImage(evt) {
+        var files = evt.target.files;
+        for(let file of files){
+            (function(file){
+                var reader = new FileReader();
+                reader.onload = function (upload) {
+                    setImages((prev)=>{
+                        if(prev.length >= 5) {
+                            Swal.fire({
+                                icon: "error",
+                                title: "錯誤" ,
+                                text: "只能上傳最多五張照片，請重新上傳"
+                            }).then(()=>{
+                                setImages([])
+                            })
                         }
-                    }
-                }
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: str
-                })
-            })
-        };
-        reader.readAsDataURL(file);
-        console.log("Uploaded");
+                        return [...prev, upload.target.result]
+                    });
+                };
+                reader.readAsDataURL(file)
+            })(file)
+        }
     }
 
     function loadCategories(){
@@ -298,25 +281,33 @@ export default function Report() {
                                     </div>
 
                                     <div className={"col-12"}>
-                                        <button hidden={imageUrl !== ''} onClick={()=>file.click()} className="primary" style={{fontSize: "11px"}} type={'button'}>
-                                            上傳圖片
+                                        <button hidden={images.length >= 5} onClick={()=>file.click()} className="primary" style={{fontSize: "11px"}} type={'button'}>
+                                            上傳圖片 ({images.length}/5)
                                         </button>
                                         <input type="file" name="file"
                                                className="upload-file"
                                                id="file"
+                                               ref={FileInputElement}
                                                onChange={handleChangeImage}
                                                accept="image/*,.png,.jpg,.gif,.PNG,.JPS,.GIF"
                                                hidden
+                                               multiple
                                         />
                                         <br/>
-                                        <a href={process.env.NEXT_PUBLIC_ENDPOINT + '/' + imageUrl} target="_blank"
-                                           hidden={!image || loading}
-                                           rel="noreferrer">{process.env.NEXT_PUBLIC_ENDPOINT + '/' + imageUrl}</a>
-                                        <br/>
-                                        <img
-                                            width={300}
-                                            src={image && !loading ? process.env.NEXT_PUBLIC_ENDPOINT + '/' + imageUrl : "https://via.placeholder.com/300x180?text=Description+Image"}
-                                            alt={'Image'}/>
+                                        <Grid container spacing={2}>
+                                        {
+                                            images.map((img)=>{
+                                                return (
+                                                    <Grid item key={Math.random()}>
+                                                        <img
+                                                        width={300}
+                                                        src={img}
+                                                        alt={'Image'}/>
+                                                    </Grid>
+                                                )
+                                            })
+                                        }
+                                        </Grid>
                                     </div>
 
                                     <div className="col-12">
