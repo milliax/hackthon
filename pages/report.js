@@ -8,14 +8,15 @@ import {
     LinearProgress,
     makeStyles,
     Paper,
-    Link
+    Link, Button
 } from "@material-ui/core";
 import AddIcon from '@material-ui/icons/Add';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import GoogleMapSection from "../component/Report/GoogleMapSection";
+import Cookies from "universal-cookie/lib";
 
 export default function Report() {
+    const cookies = new Cookies()
     const center = {lat:23,lng:120}
     const [latitude, setLatitude] = useState(23)
     const [longitude, setLongitude] = useState(120)
@@ -23,15 +24,11 @@ export default function Report() {
     const [name, setName] = useState('')
     const [content, setContent] = useState('')
     const [loading, setLoading] = useState(false)
-    const [categories, setCategories] = useState([
-        {id: 1, name: "陸域生態系統破壞"},
-        {id: 2, name: "森林管理缺失"},
-        {id: 3, name: "沙漠化"},
-        {id: 4, name: "土地劣化"},
-        {id: 5, name: "生物多樣性喪失"}
-    ])
+    const [categories, setCategories] = useState([])
     const [categoriesSelectedData, setCategoriesSelectedData] = useState([])
     const [categoryExpanded, setCategoryExpanded] = useState(false)
+    const [image, setImage] = useState('')
+    const [imageUrl, setImageUrl] = useState('')
     const isInitState = useRef(true)
 
     async function Send() {
@@ -41,7 +38,8 @@ export default function Report() {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    "Authorization": `Bearer ${cookies.get('access_token')}`
                 }, body: JSON.stringify({
                     name,
                     content,
@@ -52,7 +50,22 @@ export default function Report() {
             })
             const response = await res.json()
             setLoading(false)
-            console.log(response)
+            if(typeof response.status !== 'undefined' && response.status !== 200){
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: response?.error?.localizedMessage ?? response?.error?.message
+                })
+            } else {
+                Swal.fire({
+                    icon: 'success',
+                    title: '成功',
+                    text: '成功回報'
+                }).then(()=>{
+                    location.href = '/'
+                })
+            }
+
         } catch (err) {
             Swal.fire({
                 icon: 'error',
@@ -147,6 +160,58 @@ export default function Report() {
         )
     }
 
+    function handleChangeImage(evt) {
+        var reader = new FileReader();
+        var file = evt.target.files[0];
+
+        reader.onload = function (upload) {
+            setImage(upload.target.result);
+            const formData = new FormData()
+            formData.append('image', file)
+            setLoading(true)
+            fetch(process.env.NEXT_PUBLIC_ENDPOINT + '/api/utils/uploadImage', {
+                method: 'POST',
+                headers: {
+                    "Accept": "application/json",
+                    "Authorization": `Bearer ${cookies.get('access_token')}`
+                },
+                body: formData
+            }).then(response => {
+                if (response.ok) {
+                    return response.json()
+                }
+                return response.text().then(res => {
+                    throw new Error(res)
+                })
+            }).then(response => {
+                console.log(typeof response)
+                setImageUrl(response?.details?.path)
+                setLoading(false)
+            }).catch((error) => {
+                //console.log(error.message)
+                let response = JSON.parse(error.message)
+                let str = ''
+                console.log(response)
+                if(typeof response.errors !== 'undefined') {
+                    console.log(response.errors)
+                    for(let key of Object.keys(response.errors)){
+                        console.log(key)
+                        for(let msg of response.errors[key]){
+                            str += msg + '\n'
+                        }
+                    }
+                }
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: str
+                })
+            })
+        };
+        reader.readAsDataURL(file);
+        console.log("Uploaded");
+    }
+
     function loadCategories(){
         fetch(`${process.env.NEXT_PUBLIC_ENDPOINT}/api/categories`,{
             method: "GET",
@@ -178,17 +243,6 @@ export default function Report() {
                             <h1>通報問題</h1>
                         </header>
                         <div style={{height: '100vh', width: '100%'}}>
-                            <div style={{height: '70vh', width: '55%'}}>
-                                <GoogleMapSection onChange={(lat,lng)=>{
-                                    setLongitude(lng)
-                                    setLatitude(lat)
-                                }}
-                                                  zoom={zoom}
-                                                  center={center}
-                                                  longitude={longitude}
-                                                  latitude={latitude}
-                                />
-                            </div>
                             <form onSubmit={event => {
                                 event.preventDefault()
                                 Send()
@@ -200,12 +254,13 @@ export default function Report() {
                                                onChange={e => {
                                                    setName(e.target.value)
                                                }}
+                                               required
                                                placeholder="通報問題名稱"/>
                                     </div>
                                     <div className="col-12">
                                         <textarea value={content} onChange={e => {
                                             setContent(e.target.value)
-                                        }} placeholder="通報內容" rows={5}/>
+                                        }} placeholder="通報內容" rows={5} required/>
                                     </div>
                                     <div className={"col-12"}>
                                         <Grid container spacing={2} justifyContent="space-between">
@@ -226,6 +281,44 @@ export default function Report() {
                                             </CardContent>
                                         </Collapse>
                                     </div>
+                                    <div className="col-12">
+                                        <div style={{height: '50vh',display:'flex',alignItems: 'center',position: 'relative'}}>
+                                            <div style={{height:'100%',width:'100%'}}>
+                                                <GoogleMapSection onChange={(lat,lng)=>{
+                                                    setLongitude(lng)
+                                                    setLatitude(lat)
+                                                }}
+                                                                  zoom={zoom}
+                                                                  center={center}
+                                                                  longitude={longitude}
+                                                                  latitude={latitude}
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div className={"col-12"}>
+                                        <button hidden={imageUrl !== ''} onClick={()=>file.click()} className="primary" style={{fontSize: "11px"}} type={'button'}>
+                                            上傳圖片
+                                        </button>
+                                        <input type="file" name="file"
+                                               className="upload-file"
+                                               id="file"
+                                               onChange={handleChangeImage}
+                                               accept="image/*,.png,.jpg,.gif,.PNG,.JPS,.GIF"
+                                               hidden
+                                        />
+                                        <br/>
+                                        <a href={process.env.NEXT_PUBLIC_ENDPOINT + '/' + imageUrl} target="_blank"
+                                           hidden={!image || loading}
+                                           rel="noreferrer">{process.env.NEXT_PUBLIC_ENDPOINT + '/' + imageUrl}</a>
+                                        <br/>
+                                        <img
+                                            width={300}
+                                            src={image && !loading ? process.env.NEXT_PUBLIC_ENDPOINT + '/' + imageUrl : "https://via.placeholder.com/300x180?text=Description+Image"}
+                                            alt={'Image'}/>
+                                    </div>
+
                                     <div className="col-12">
                                         <button type="submit" className="primary" style={{width: "100%"}}>通報</button>
                                     </div>
