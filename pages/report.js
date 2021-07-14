@@ -1,5 +1,5 @@
 import Title from "../component/Title";
-import {useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import Swal from "sweetalert2";
 import {
     CardContent,
@@ -32,11 +32,12 @@ export default function Report() {
     ])
     const [categoriesSelectedData, setCategoriesSelectedData] = useState([])
     const [categoryExpanded, setCategoryExpanded] = useState(false)
+    const isInitState = useRef(false)
 
     async function Send() {
         try {
             setLoading(true)
-            const res = await fetch(`${process.env.NEXT_PUBLIC_ENDPOINT}/posts`, {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_ENDPOINT}/api/posts`, {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -44,6 +45,8 @@ export default function Report() {
                 }, body: JSON.stringify({
                     name,
                     content,
+                    lat: latitude,
+                    lng: longitude,
                     categories: categoriesSelectedData.map(x => x.id)
                 })
             })
@@ -143,6 +146,23 @@ export default function Report() {
             </Paper>
         )
     }
+
+    function loadCategories(){
+        fetch(`${process.env.NEXT_PUBLIC_ENDPOINT}/api/categories`,{
+            method: "GET",
+            headers: new Headers({
+                Accept: "application/json"
+            })
+        }).then(r=>{
+
+        })
+    }
+
+    useEffect(()=>{
+        if(isInitState.current){
+            loadCategories()
+        }
+    })
 
     return (
         <div id="wrapper">
