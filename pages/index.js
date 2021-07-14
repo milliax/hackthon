@@ -86,7 +86,7 @@ export default function Home() {
                                link="/post/forest_gone"/>
                 </section>
 
-                <section id="two">
+                {/*<section id="two">
                     <div className="inner">
                         <header className="major">
                             <h2>回報</h2>
@@ -96,7 +96,7 @@ export default function Home() {
                             <li><a href="/report" className="button next">現在開始</a></li>
                         </ul>
                     </div>
-                </section>
+                </section>*/}
                 <Footer />
             </div>
         </div>
