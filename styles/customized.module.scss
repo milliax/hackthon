@@ -1,0 +1,6 @@
+.customizedBtnHover {
+    &:hover, &:active {
+        box-shadow: inset 0 0 0 2px gray !important;
+        color: white !important;
+    }
+}

@@ -5,10 +5,10 @@ export default function Title(props) {
     return (
         <>
             <Head>
-                <title key="title">{props.title} - SDGs 15th</title>
+                <title key="title">{props.title} - V-SDGs</title>
             </Head>
             <header id="header">
-                <a href="/" className="logo"><strong>SDGs 15th</strong> <span>By usapnayn</span></a>
+                <a href="/" className="logo"><strong>V-SDGs</strong> <span>By Team usapnayn</span></a>
                 <nav>
                     <a href="#menu">Menu</a>
                 </nav>

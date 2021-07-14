@@ -3,12 +3,15 @@ import GoogleMap from 'google-map-react'
 import {useState, useEffect} from "react";
 import EditLocationIcon from '@material-ui/icons/EditLocation';
 import Swal from 'sweetalert2'
-import {Card} from 'react-bootstrap'
+import {Card,Button} from 'react-bootstrap'
+import {Grid} from "@material-ui/core";
+import styles from '../styles/customized.module.scss';
 
 export default function Discover() {
     const [center,setCenter] = useState({lat: 23.5910882, lng: 121.112078})
     const [zoom,setZoom] = useState(7)
     const [coordinate, setCoordinate] = useState([])
+
     async function getFile() {
         try {
             const res = await fetch(`${process.env.NEXT_PUBLIC_ENDPOINT}/api/posts`, {
@@ -19,7 +22,6 @@ export default function Discover() {
                 }
             })
             const response = await res.json()
-            console.log(response)
             setCoordinate(response)
         } catch (err) {
             await Swal.fire({
@@ -42,7 +44,6 @@ export default function Discover() {
 
     return (
         <div id="wrapper">
-
             <Title title="探索"/>
             <div id="main" className="alt">
                 <section id="one">
@@ -50,8 +51,9 @@ export default function Discover() {
                         <header className="major">
                             <h1>探索</h1>
                         </header>
-                        <div style={{display: 'flex', flexWrap: 'wrap', align: 'center'}}>
-                            <div style={{height: '100vh', width: '50%'}}>
+
+                        <Grid container style={{height: '100vh'}} spacing={2}>
+                            <Grid item xs={6}>
                                 <GoogleMap
                                     key={process.env.NEXT_PUBLIC_GOOGLE}
                                     center={center}
@@ -59,24 +61,23 @@ export default function Discover() {
                                 >
                                     {typeof(coordinate)!=="undefined" && coordinate.map((item, index) => {
                                         return (
-                                            <div lat={item.lat}
+                                            <x-marker lat={item.lat}
                                                  lng={item.lng}>
                                                 <EditLocationIcon>Location</EditLocationIcon>
-                                            </div>
+                                            </x-marker>
                                         )
                                     })}
                                 </GoogleMap>
-                            </div>
-                            <div style={{height: '100vh', width: '5%'}} />
-                            <div style={{height: '100vh', width: '45%',overflowY: "scroll"}}>
+                            </Grid>
+                            <Grid item xs={6} style={{overflowY: "scroll"}}>
                                 {typeof(coordinate)!=="undefined" && coordinate.map((item,index) => {
                                     return (
                                         <Card>
                                             <Card.Header style={{color: 'black',display: 'flex'}}>
                                                 <div>{item.name}</div>
                                                 <div style={{marginLeft:"auto"}} >
-                                                    <button className="btn btn-warning"
-                                                            style={{width: "4em",height: "2em"}}
+                                                    <button style={{backgroundColor: "darkgrey"}}
+                                                            className={styles.customizedBtnHover}
                                                             onClick={()=>{handleOnclick(index)}}>
                                                         查看
                                                     </button>
@@ -91,8 +92,8 @@ export default function Discover() {
                                         </Card>
                                     )
                                 })}
-                            </div>
-                        </div>
+                            </Grid>
+                        </Grid>
                     </div>
                 </section>
             </div>
