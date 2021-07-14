@@ -126,7 +126,7 @@ export default function AddCategory() {
                             }}>
                                 <div className="row gtr-uniform">
                                     <div className={"col-12"}>
-                                        分類預覽：<br/>
+                                        現有分類：<br/>
                                         <ShowCategories categories={categories}/>
                                     </div>
                                     <div className="col-12">
