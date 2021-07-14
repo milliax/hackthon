@@ -3,7 +3,7 @@ import '../styles/main.css'
 import '../styles/fontawesome-all.min.css'
 import Head from 'next/head'
 import '../styles/slide.css'
-
+import Navigation from "../component/Navigation";
 
 function MyApp({Component, pageProps}) {
     return (
@@ -11,6 +11,7 @@ function MyApp({Component, pageProps}) {
             <Head>
                 <title key="title">聯合國永續發展</title>
             </Head>
+            <Navigation/>
             <Component {...pageProps} />
             <script src={`${process.env.NEXT_PUBLIC_DATABASE}/hackthon/assets/js/jquery.min.js`}/>
             <script src={`${process.env.NEXT_PUBLIC_DATABASE}/hackthon/assets/js/jquery.scrolly.min.js`}/>
