@@ -41,7 +41,7 @@ export default function Report() {
             submitFormData.append('content', content)
             submitFormData.append('lat', latitude)
             submitFormData.append('lng', longitude)
-            submitFormData.append('categories', categoriesSelectedData.map(x => x.id))
+            categoriesSelectedData.map(x => x.id).forEach(x=>submitFormData.append('categories[]', x))
             let files = FileInputElement.current.files;
             for(let file of files){
                 submitFormData.append('image[]', file)
