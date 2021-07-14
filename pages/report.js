@@ -9,7 +9,7 @@ import {
     makeStyles,
     Paper
 } from "@material-ui/core";
-import {Link} from "next/link";
+import Link from "next/link";
 import AddIcon from '@material-ui/icons/Add';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import GoogleMapSection from "../component/Report/GoogleMapSection";
