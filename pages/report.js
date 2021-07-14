@@ -8,14 +8,16 @@ import {
     LinearProgress,
     makeStyles,
     Paper,
-    Link
+    Link, Button
 } from "@material-ui/core";
 import AddIcon from '@material-ui/icons/Add';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import GoogleMapSection from "../component/Report/GoogleMapSection";
+import Cookies from "universal-cookie/lib";
 
 export default function Report() {
+    const cookies = new Cookies()
     const center = {lat:23,lng:120}
     const [latitude, setLatitude] = useState(23)
     const [longitude, setLongitude] = useState(120)
@@ -32,6 +34,8 @@ export default function Report() {
     ])
     const [categoriesSelectedData, setCategoriesSelectedData] = useState([])
     const [categoryExpanded, setCategoryExpanded] = useState(false)
+    const [image, setImage] = useState('')
+    const [imageUrl, setImageUrl] = useState('')
     const isInitState = useRef(true)
 
     async function Send() {
@@ -147,6 +151,44 @@ export default function Report() {
         )
     }
 
+    function handleChangeImage(evt) {
+        var reader = new FileReader();
+        var file = evt.target.files[0];
+
+        reader.onload = function (upload) {
+            setImage(upload.target.result);
+            const formData = new FormData()
+            formData.append('image', file)
+            setLoading(true)
+            fetch(process.env.NEXT_PUBLIC_ENDPOINT + '/api/utils/uploadImage', {
+                method: 'POST',
+                headers: {
+                    "Accept": "application/json",
+                    "Authorization": `Bearer ${cookies.get('access_token')}`
+                },
+                body: formData
+            }).then(response => {
+                if (response.ok) {
+                    return response.json()
+                }
+                return response.text().then(res => {
+                    throw new Error(res)
+                })
+            }).catch((error) => {
+                console.log(error.message)
+                let response = JSON.parse(error.message)
+                window.alert(`${response.message}\n與伺服器連線錯誤，請再試一次\n如果問題無法解決，請聯絡管理員`)
+            }).then(response => {
+                console.log(typeof response)
+                //window.alert(response)
+                setImageUrl(response.details.path)
+                setLoading(false)
+            })
+        };
+        reader.readAsDataURL(file);
+        console.log("Uploaded");
+    }
+
     function loadCategories(){
         fetch(`${process.env.NEXT_PUBLIC_ENDPOINT}/api/categories`,{
             method: "GET",
@@ -229,7 +271,27 @@ export default function Report() {
                                                 />
                                             </div>
                                         </div>
+                                    </div>
 
+                                    <div className={"col-12"}>
+                                        <button hidden={imageUrl !== ''} onClick={()=>file.click()} className="primary" style={{fontSize: "11px"}}>
+                                            上傳圖片
+                                        </button>
+                                        <input type="file" name="file"
+                                               className="upload-file"
+                                               id="file"
+                                               onChange={handleChangeImage}
+                                               hidden
+                                        />
+                                        <br/>
+                                        <a href={process.env.NEXT_PUBLIC_ENDPOINT + '/' + imageUrl} target="_blank"
+                                           hidden={!image || loading}
+                                           rel="noreferrer">{process.env.NEXT_PUBLIC_ENDPOINT + '/' + imageUrl}</a>
+                                        <br/>
+                                        <img
+                                            width={300}
+                                            src={image && !loading ? process.env.NEXT_PUBLIC_ENDPOINT + '/' + imageUrl : "https://via.placeholder.com/300x180?text=Description+Image"}
+                                            alt={'Image'}/>
                                     </div>
 
                                     <div className="col-12">
