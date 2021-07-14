@@ -1,13 +1,13 @@
 FROM node:lts as dependencies
 WORKDIR /V-SDGs-FE
-COPY package.json yarn.lock ./
-RUN yarn install --frozen-lockfile
+COPY package.json ./
+RUN npm install
 
 FROM node:lts as builder
 WORKDIR /V-SDGs-FE
 COPY . .
 COPY --from=dependencies /V-SDGs-FE/node_modules ./node_modules
-RUN yarn build
+RUN npm run build
 
 FROM node:lts as runner
 WORKDIR /V-SDGs-FE
