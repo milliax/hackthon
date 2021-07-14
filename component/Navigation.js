@@ -5,20 +5,14 @@ import Swal from "sweetalert2";
 
 export default function Navigation() {
     const cookies = new Cookies()
-    const [loggedIn, setLoggedIn] = useState(true)
-    const isInitState = useRef(true)
 
     useEffect(()=>{
-        if(isInitState.current){
-            isInitState.current = false
-            let ck = cookies.getAll()
-            if(ck['access_token']){
-                setLoggedIn(true)
-            } else {
-                setLoggedIn(false)
-            }
+        const reload = cookies.get('reload')
+        if(typeof(reload)!=="undefined"){
+            cookies.remove('reload')
+            window.location.reload()
         }
-    })
+    },[])
 
     function logout(){
         cookies.set('access_token',null)
@@ -27,6 +21,15 @@ export default function Navigation() {
             title: "成功",
             text: "登出成功"
         })
+    }
+
+    const loggedIn = ()=>{
+        const access = cookies.get('access_token')
+        if(typeof(access) === "undefined"){
+            return false
+        }else{
+            return true
+        }
     }
 
     return (
@@ -38,7 +41,7 @@ export default function Navigation() {
             </ul>
             <ul className="actions stacked">
                 {
-                    (!loggedIn)? (
+                    (loggedIn)? (
                         <>
                             <li><a href="/login" className="button primary fit">登入</a></li>
                             <li><a href="/signup" className="button fit">註冊</a></li>

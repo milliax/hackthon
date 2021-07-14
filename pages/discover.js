@@ -3,13 +3,12 @@ import GoogleMap from 'google-map-react'
 import {useState, useEffect} from "react";
 import EditLocationIcon from '@material-ui/icons/EditLocation';
 import Swal from 'sweetalert2'
-import {Card,Button} from 'react-bootstrap'
+import {Card} from 'react-bootstrap'
 
 export default function Discover() {
-    const center = {lat: 23.5910882, lng: 121.112078}
-    const zoom = 7
+    const [center,setCenter] = useState({lat: 23.5910882, lng: 121.112078})
+    const [zoom,setZoom] = useState(7)
     const [coordinate, setCoordinate] = useState([])
-
     async function getFile() {
         try {
             const res = await fetch(`${process.env.NEXT_PUBLIC_ENDPOINT}/api/posts`, {
@@ -29,6 +28,12 @@ export default function Discover() {
                 text: err
             })
         }
+    }
+
+    function handleOnclick(index){
+        const arrival = coordinate[index]
+        setZoom(9)
+        setCenter({lat: arrival.lat,lng: arrival.lng})
     }
 
     useEffect(() => {
@@ -62,14 +67,19 @@ export default function Discover() {
                                     })}
                                 </GoogleMap>
                             </div>
-                            <div style={{height: '100vh', width: '50%',overflowY: "scroll"}}>
-                                {typeof(coordinate)!=="undefined" && coordinate.map(item => {
+                            <div style={{height: '100vh', width: '5%'}} />
+                            <div style={{height: '100vh', width: '45%',overflowY: "scroll"}}>
+                                {typeof(coordinate)!=="undefined" && coordinate.map((item,index) => {
                                     return (
                                         <Card>
                                             <Card.Header style={{color: 'black',display: 'flex'}}>
                                                 <div>{item.name}</div>
                                                 <div style={{marginLeft:"auto"}} >
-                                                    <Button className="btn btn-warning" style={{width: "10px",height: "10px"}}>選取</Button>
+                                                    <button className="btn btn-warning"
+                                                            style={{width: "4em",height: "2em"}}
+                                                            onClick={()=>{handleOnclick(index)}}>
+                                                        查看
+                                                    </button>
                                                 </div>
                                             </Card.Header>
                                             <Card.Body>
