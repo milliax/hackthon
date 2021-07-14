@@ -155,7 +155,7 @@ export default function Report() {
             })
         }).then(r=>{
             console.log(r)
-            console.log(0)
+            console.log(1)
         })
     }
 
