@@ -1,12 +1,20 @@
 import Form from '../component/Footer/Form'
+import {Link} from "@material-ui/core";
 
 export default function Footer(){
     return(
         <>
             <section id="contact">
                 <div className="inner">
-                    <Form />
-                    <section className="split">
+                    <section className="//split">
+                        <section>
+                            <div className="contact-method">
+                                <span className="icon solid alt fa-surprise" />
+                                <h3>意見回饋</h3>
+                                <Link href="/feedback">Feedback 表單</Link>
+                            </div>
+                        </section>
+
                         <section>
                             <div className="contact-method">
                                 <span className="icon solid alt fa-envelope" />
@@ -15,14 +23,13 @@ export default function Footer(){
                             </div>
                         </section>
 
-                        <section>
+                        {/*<section>
                             <div className="contact-method">
-                                <span className="icon solid alt fa-home" />
+                                <span className="icon solid alt fa-home"/>
                                 <h3>Address</h3>
-                                <span><br/>
-										Taiwan</span>
+                                <span>Taiwan</span>
                             </div>
-                        </section>
+                        </section>*/}
                     </section>
                 </div>
             </section>
@@ -46,8 +53,8 @@ export default function Footer(){
                     */}
                     <ul className="copyright">
                         <li>&copy; usapnayn</li>
-                        <li>Design: <a href="https://html5up.net">HTML5 UP</a></li>
-                        <li>Construct: Milliax, Hsuan, NeoDoggy</li>
+                        <li>Made with ❤️ by Milliax, Hsuan,and NeoDoggy</li>
+                        <li style={{fontSize: '10px'}}>Template: <a href="https://html5up.net">HTML5 UP</a></li>
                     </ul>
                 </div>
             </footer>
