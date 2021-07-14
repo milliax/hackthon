@@ -6,11 +6,13 @@ import Swal from 'sweetalert2'
 import {Card,Button} from 'react-bootstrap'
 import {Grid} from "@material-ui/core";
 import styles from '../styles/customized.module.scss';
+import Cookies from "universal-cookie";
 
 export default function Discover() {
     const [center,setCenter] = useState({lat: 23.5910882, lng: 121.112078})
     const [zoom,setZoom] = useState(7)
     const [coordinate, setCoordinate] = useState([])
+    const cookies = new Cookies()
 
     function handleGeoClick() {
         navigator.geolocation.getCurrentPosition(geoSuccess, geoError, {
@@ -19,6 +21,8 @@ export default function Discover() {
     }
 
     function geoSuccess(pos) {
+        cookies.set('lat', pos.coords.latitude)
+        cookies.set('lng', pos.coords.longitude)
         getFile(pos.coords.latitude, pos.coords.longitude)
     }
 
@@ -31,6 +35,8 @@ export default function Discover() {
             let params = ''
             if(typeof lat !== 'undefined' && typeof lng !== 'undefined'){
                 params = `?lat=${lat}&lng=${lng}`
+            } else if(typeof cookies.get('lat') !== 'undefined' && typeof cookies.get('lng') !== 'undefined'){
+                params = `?lat=${cookies.get('lat')}&lng=${cookies.get('lng')}`
             }
             const res = await fetch(`${process.env.NEXT_PUBLIC_ENDPOINT}/api/posts${params}`, {
                 method: "GET",

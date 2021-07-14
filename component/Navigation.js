@@ -19,12 +19,11 @@ export default function Navigation() {
     return(
         <Navbar bg="dark" expand="lg">
             <Container style={{color: 'white'}}>
-                <Navbar.Brand href="/"><div className="logo" style={{color: 'white'}}><strong>SDGs 15th</strong> <span>By usapnayn</span></div></Navbar.Brand>
+                <Navbar.Brand href="/"><div className="logo" style={{color: 'white'}}><strong>V-SDGs</strong> <span>By usapnayn</span></div></Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav"/>
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">
-                        <Nav.Link href="/report" style={{color: 'white'}}>申報危機</Nav.Link>
-                        <Nav.Link href="/discover" style={{color: 'white'}}>探索</Nav.Link>
+                        <Nav.Link href="/dashboard" style={{color: 'white'}}>平台總覽</Nav.Link>
                         <Nav.Link href="/login" style={{color: 'white'}}>登入</Nav.Link>
                         <Nav.Link href="/signup" style={{color: 'white'}}>註冊</Nav.Link>
                     </Nav>
