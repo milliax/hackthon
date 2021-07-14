@@ -1,6 +1,22 @@
 import Navigation from "../component/Navigation";
 import Spotlight from "../component/Home/Spotlight";
 import Footer from "../component/Footer";
+/*
+var slideIndex = 0;
+showSlides();
+
+function showSlides() {
+  var i;
+  var slides = document.getElementsByClassName("mySlides");
+  for (i = 0; i < slides.length; i++) {
+    slides[i].style.display = "none";
+  }
+  slideIndex++;
+  if (slideIndex > slides.length) {slideIndex = 1}
+  slides[slideIndex-1].style.display = "block";
+  setTimeout(showSlides, 3000); // Change image every 2 seconds
+} 
+*/
 
 export default function Home() {
     return (
@@ -34,7 +50,27 @@ export default function Home() {
                     <Spotlight title="全球最大熱帶植物保種中心在台灣"
                                context="目前熱帶植物正瀕臨滅絕，如何挽救？"
                                link="/post/reservation_in_taiwan"/>
-                    <img src="images/pic01.jpg"/>
+                    <div class="slideshow-container">
+                        <div className="mySlides fade">
+                        <div className="numbertext">1 / 3</div>
+                        <img src="img_mountains_wide.jpg" style={{width: "100%"}}/>
+                        <div className="text">1</div>
+                        </div>
+                    </div>
+                    <div class="slideshow-container">
+                        <div className="mySlides fade">
+                        <div className="numbertext">2 / 3</div>
+                        <img src="img_mountains_wide.jpg" style={{width: "100%"}}/>
+                        <div className="text">2</div>
+                        </div>
+                    </div>
+                    <div class="slideshow-container">
+                        <div className="mySlides fade">
+                        <div className="numbertext">3 / 3</div>
+                        <img src="img_mountains_wide.jpg" style={{width: "100%"}}/>
+                        <div className="text">3</div>
+                        </div>
+                    </div>
                     <Spotlight title="給石虎安心的家"
                                context="為野生動物守護安心家園"
                                link="/post/shihu_home"/>
