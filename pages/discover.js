@@ -34,7 +34,7 @@ export default function Discover() {
 
     function handleOnclick(index){
         const arrival = coordinate[index]
-        setZoom(9)
+        setZoom(12)
         setCenter({lat: arrival.lat,lng: arrival.lng})
     }
 
