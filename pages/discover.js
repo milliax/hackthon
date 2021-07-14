@@ -61,8 +61,9 @@ export default function Discover() {
                                 >
                                     {typeof(coordinate)!=="undefined" && coordinate.map((item, index) => {
                                         return (
-                                            <x-marker lat={item.lat}
-                                                 lng={item.lng}>
+                                            <x-marker
+                                                lat={item.lat}
+                                                lng={item.lng}>
                                                 <EditLocationIcon>Location</EditLocationIcon>
                                             </x-marker>
                                         )
