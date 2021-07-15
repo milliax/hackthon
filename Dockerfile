@@ -20,4 +20,4 @@ COPY --from=builder /V-SDGs-FE/node_modules ./node_modules
 COPY --from=builder /V-SDGs-FE/package.json ./package.json
 
 EXPOSE 3000
-CMD ["yarn", "start"]
+CMD ["npm", "start"]

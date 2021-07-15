@@ -1,0 +1,20 @@
+version: "3.7"
+services:
+    app:
+        build:
+            context: ./
+            dockerfile: Dockerfile
+        image: v-sdgs.fe
+        container_name: v-sdgs.fe-app
+        restart: unless-stopped
+        working_dir: /var/www/
+        ports:
+            - 3000:3000
+        volumes:
+            - ./:/var/www
+        networks:
+            - v-sdgs.be
+
+networks:
+    "v-sdgs.be":
+        driver: bridge
