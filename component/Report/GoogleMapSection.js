@@ -1,4 +1,4 @@
-import GoogleMap from "google-map-react"
+import GoogleMapReact from "google-map-react"
 import {useState} from "react";
 import RoomIcon from '@material-ui/icons/Room';
 
@@ -12,12 +12,13 @@ export default function GoogleMapSection(props){
     }
 
     return(
-        <GoogleMap
+        <GoogleMapReact
+            bootstrapURLKeys={{ key: process.env.NEXT_PUBLIC_GOOGLE }}
             zoom={props.zoom}
             center={props.center}
             onClick={handleOnChange}
         >
             <RoomIcon lat={latitude} lng={longitude}/>
-        </GoogleMap>
+        </GoogleMapReact>
     )
 }

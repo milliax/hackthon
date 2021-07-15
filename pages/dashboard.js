@@ -30,10 +30,10 @@ export default function Report() {
                         </header>
                         <Grid container spacing={2}>
                             <Grid item xs={6} style={{textAlign: 'center'}}>
-                                <button onClick={e=>location.replace('/report')} style={{color: 'white'}}><AddIcon/> 提出/回報志願服務</button>
+                                <button onClick={e=>location.replace('/report')} style={{color: 'white'}}><AddIcon/> 通報環境災害</button>
                             </Grid>
                             <Grid item xs={6} style={{textAlign: 'center'}}>
-                                <button onClick={e=>location.replace('/discover')} style={{color: 'white'}}><ExploreIcon/> 探索附近志願服務</button>
+                                <button onClick={e=>location.replace('/discover')} style={{color: 'white'}}><ExploreIcon/> 探索附近災害</button>
                             </Grid>
                         </Grid>
                     </div>

@@ -1,7 +1,6 @@
 import Link from 'next/link'
 import Cookies from "universal-cookie";
 import {useEffect, useState} from "react";
-import Swal from "sweetalert2";
 import {Container, Navbar, Nav} from "react-bootstrap";
 
 export default function Navigation() {

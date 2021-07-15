@@ -1,5 +1,5 @@
 import Title from "../component/Title";
-import GoogleMap from 'google-map-react'
+import GoogleMapReact from 'google-map-react'
 import {useState, useEffect} from "react";
 import EditLocationIcon from '@material-ui/icons/EditLocation';
 import Swal from 'sweetalert2'
@@ -78,8 +78,8 @@ export default function Discover() {
 
                         <Grid container style={{height: '100vh'}} spacing={2}>
                             <Grid item xs={6}>
-                                <GoogleMap
-                                    key={process.env.NEXT_PUBLIC_GOOGLE}
+                                <GoogleMapReact
+                                    bootstrapURLKeys={{ key: process.env.NEXT_PUBLIC_GOOGLE }}
                                     center={center}
                                     zoom={zoom}
                                 >
@@ -92,7 +92,7 @@ export default function Discover() {
                                             </x-marker>
                                         )
                                     })}
-                                </GoogleMap>
+                                </GoogleMapReact>
                             </Grid>
                             <Grid item xs={6} style={{overflowY: "scroll"}} spacing={2}>
                                 <button className={styles.customizedBtnHover}

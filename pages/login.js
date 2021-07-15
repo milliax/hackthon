@@ -45,7 +45,7 @@ export default function Login() {
                 icon: 'success',
                 title: '登入成功'
             })
-            await router.push('/')
+            document.location.href = '/'
         }catch(err){
             await Swal.fire({
                 icon: 'error',
