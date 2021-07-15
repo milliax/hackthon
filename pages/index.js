@@ -41,11 +41,6 @@ export default function Home() {
                     <Spotlight title="太平洋垃圾島"
                                context="每年成千上萬隻海鷗葬身此地"
                                link="/post/pacific_garbage"/>
-                    <Spotlight color="#d74793"
-                               title="全球最大熱帶植物保種中心在台灣"
-                               context="目前熱帶植物正瀕臨滅絕，如何挽救？"
-                               link="/post/reservation_in_taiwan"/>
-
                     <Spotlight title="給石虎安心的家"
                                context="為野生動物守護安心家園"
                                link="/post/shihu_home"
