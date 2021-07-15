@@ -33,6 +33,14 @@ export default function Signup(){
             })
             return
         }
+        if(password.length < 5){
+            await Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: '密碼長度需大於5個字'
+            })
+            return
+        }
         if(password !== password2){
             await Swal.fire({
                 icon: 'error',
@@ -70,11 +78,20 @@ export default function Signup(){
             })
             await router.push('/login')
         }catch(err){
-            await Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: err
-            })
+            if(err === "The given data was invalid."){
+                await Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: "帳號重複，請嘗試其他名稱"
+                })
+            }else{
+                await Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: err
+                })
+            }
+
             setLoading(false)
         }
     }
