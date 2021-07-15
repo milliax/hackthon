@@ -3,7 +3,7 @@ import GoogleMapReact from 'google-map-react'
 import {useState, useEffect} from "react";
 import EditLocationIcon from '@material-ui/icons/EditLocation';
 import Swal from 'sweetalert2'
-import {Card,Button} from 'react-bootstrap'
+import {Card, Button, ListGroupItem, ListGroup} from 'react-bootstrap'
 import {Grid} from "@material-ui/core";
 import styles from '../styles/customized.module.scss';
 import Cookies from "universal-cookie";
@@ -117,14 +117,16 @@ export default function Discover() {
                                             <Card.Body>
                                                 <Card.Title style={{color: 'black'}} hidden={typeof(item.categories) === "undefined"} >{item.categories}</Card.Title>
                                                 <Card.Text style={{color: 'black'}}>
-                                                    {
-                                                        item?.distance ?
-                                                            <span>{item.distance} Km</span> :
-                                                            null
-                                                    }
                                                     {item.content}
                                                 </Card.Text>
                                             </Card.Body>
+                                            <ListGroup className="list-group-flush">
+                                                {
+                                                    item?.distance ?
+                                                        <ListGroupItem><EditLocationIcon/>距離： {item.distance} Km</ListGroupItem> :
+                                                        null
+                                                }
+                                            </ListGroup>
                                         </Card>
                                     )
                                 })}
