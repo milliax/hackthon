@@ -17,17 +17,12 @@ npm run dev
    Open http://localhost:3000/ to see if it is working correctly.
 
 ## Dockerized build
-1. Build 
+1. Build docker-compose 
 ```shell
-docker build -t v-sdgs.fe .
+docker-compose up -d
 ```
 
-2. Run Docker
-```shell
-docker run -idt -p 3000:3000 v-sdgs.fe:latest
-```
-
-3. 🎉 Success
+2. 🎉 Success
    Open http://localhost:3000/ to see if it is working correctly.
 
 ## Configuration
